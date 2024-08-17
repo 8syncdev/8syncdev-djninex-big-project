@@ -1,0 +1,1 @@
+from .jwt import NINJA_JWT
