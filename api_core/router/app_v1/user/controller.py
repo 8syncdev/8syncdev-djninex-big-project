@@ -46,7 +46,11 @@ class ClientUserController:
         Return:
         - ClientUserOutputSchema
         '''
-        return await self.user_service.create(user)
+        try:
+            data = await self.user_service.create(user)
+            return res_valid(data)
+        except Exception as e:
+            return res_invalid(f"Failed to create user, {e}")
     
     @route.post(
         path='/edit', 
@@ -59,7 +63,11 @@ class ClientUserController:
         auth=AsyncJWTAuth()
     )
     async def update(self, request, edited_user: UpdateClientUserInputSchema):
-        return await self.user_service.update(request.user, edited_user)
+        try:
+            data = await self.user_service.update_current_user(request.user, edited_user)
+            return res_valid(data)
+        except Exception as e:
+            return res_invalid(f"Failed to update user, {e}")
     
 
 @api_controller(
@@ -89,8 +97,12 @@ class AdminUserController:
         Return:
         - ClientUserOutputSchema
         '''
-        return await self.user_service.create(user)
-    
+        try:
+            data = await self.user_service.create(user)
+            return res_valid(data)
+        except Exception as e:
+            return res_invalid(f"Failed to create user, {e}")
+            
     @route.post(
         path='/user/edit', 
         summary='Edit information of current user',
@@ -102,7 +114,11 @@ class AdminUserController:
         auth=AsyncJWTAuth()
     )
     async def update(self, request, edited_user: UpdateClientUserInputSchema):
-        return await self.user_service.update_current_user(request.user, edited_user)
+        try:
+            data = await self.user_service.update_current_user(request.user, edited_user)
+            return res_valid(data)
+        except Exception as e:
+            return res_invalid(f"Failed to update user, {e}")
     
     @route.get(
         path='/user',
@@ -111,4 +127,8 @@ class AdminUserController:
     )
     @paginate_dev()
     async def get_all(self, request):
-        return await self.user_service.get_all()
+        try:
+            all_users = await self.user_service.get_all()
+            return all_users
+        except Exception as e:
+            return res_invalid(f"Failed to get all users, {e}")

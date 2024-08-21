@@ -7,9 +7,15 @@ from typing import (
     Union
 )
 
-def res_valid(data: Union[str, dict, list[dict]]) -> ValidationSuccessSchema:
+def res_valid(data: Union[dict, list[dict]]) -> ValidationSuccessSchema:
+    '''
+        Don't accept string as data
+    '''
     try:
-        return ValidationSuccessSchema(success=True, detail=data)
+        if isinstance(data, str):
+            return ValidationFailedSchema(success=False, detail=data)
+        else:
+            return ValidationSuccessSchema(success=True, detail=data)
     except Exception as e:
         return ValidationFailedSchema(success=False, detail=f"Failed to create response, {e}")
 

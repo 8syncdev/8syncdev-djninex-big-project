@@ -6,5 +6,5 @@ from typing import (
 
 
 
-def alist(args: List[Any]):
+def alist(args: List[Any]) -> List[Any]:
     return sta(list)(args)

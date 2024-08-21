@@ -10,7 +10,7 @@ from typing import (
 
 class ValidationSuccessSchema(Schema):
     success: bool
-    detail: Union[str, dict, list[dict], Any]
+    detail: Union[dict, list[dict], Any]
 
 class ValidationFailedSchema(Schema):
     success: bool
