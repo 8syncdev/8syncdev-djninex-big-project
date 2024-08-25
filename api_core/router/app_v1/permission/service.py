@@ -61,10 +61,10 @@ class PermissionService:
         try:
             user = await User.objects.aget(username=username)
             permission = await self.model.objects.aget(codename=permission_codename)
-            user.user_permissions.add(permission)
-            user.save()
+            await user.user_permissions.aadd(permission)
+            await user.asave()
             return {
-                'user': user.username,
+                'username': user.username,
                 'permission': permission.codename
             }
         except Exception as e:
@@ -73,11 +73,35 @@ class PermissionService:
     async def check_permission(self, username: str, permission_codename: str):
         try:
             user = await User.objects.aget(username=username)
-            permission = await self.model.objects.aget(codename=permission_codename)
+            has_permission = await sta(user.has_perm)(permission_codename)
+
             return {
-                'user': user.username,
-                'permission': permission.codename,
-                'has_permission': user.has_perm(permission.codename)
+                'username': user.username,
+                'permission': permission_codename,
+                'has_permission': has_permission
             }
         except Exception as e:
             return f"Failed to check permission, {e}"
+    
+    async def delete_permission(self, codename: str):
+        try:
+            permission = await self.model.objects.aget(codename=codename)
+            await permission.adelete()
+            return {
+                'codename': codename
+            }
+        except Exception as e:
+            return f"Failed to delete permission, {e}"
+    
+    async def delete_permission_from_user(self, username: str, permission_codename: str):
+        try:
+            user = await User.objects.aget(username=username)
+            permission = await self.model.objects.aget(codename=permission_codename)
+            await user.user_permissions.aremove(permission)
+            await user.asave()
+            return {
+                'username': user.username,
+                'permission': permission.codename
+            }
+        except Exception as e:
+            return f"Failed to delete permission from user, {e}"

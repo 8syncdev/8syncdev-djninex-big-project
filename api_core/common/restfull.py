@@ -21,6 +21,7 @@ from api_core.dev import (
     IsAdminUser,
     AllowAny,
     IsAuthenticatedOrReadOnly,
+    UserWithPermission,
 )
 
 from django.core.handlers.wsgi import WSGIRequest as Request

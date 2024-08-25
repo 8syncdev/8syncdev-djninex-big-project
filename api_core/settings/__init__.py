@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     #^ Libraries Apps
     'ninja_extra',
     'ninja_jwt',
-    # 'django_extensions' if DEBUG else '',
+    'django_extensions' if DEBUG else '',
     #^ My Apps
     'app_v1',
 ]

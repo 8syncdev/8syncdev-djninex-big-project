@@ -20,7 +20,7 @@ from api_core.dev import (
 from .router import (
     ALL_ROUTERS_APP_V1
 )
-from ninja_jwt.controller import NinjaJWTDefaultController
+
 
 
 api = NinjaExtraAPI(

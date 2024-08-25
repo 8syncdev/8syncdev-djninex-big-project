@@ -57,7 +57,3 @@ class UserService:
             return [AdminUserOutputSchema.from_orm(user) for user in all_users]
         except Exception as e:
             return f"Failed to get all users, {e}"
-
-       
-    
-    

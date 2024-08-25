@@ -1,146 +1,134 @@
-# from .user import User
-# from .course import (
-#     Course,
-#     UserEnrollment
-# )
-
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.utils.text import slugify
+from django.utils import timezone
 
-class ContentType(models.TextChoices):
-    MD = 'md', 'Markdown'
-    HTML = 'html', 'HTML'
-    URL = 'url', 'URL'
-
-class AbstractSluggedModel(models.Model):
-    name = models.CharField(max_length=255)  # Không cần db_index
-    slug = models.SlugField(max_length=255, unique=True, blank=True)  # Giữ db_index vì slug thường được truy vấn
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        abstract = True
-
-class AbstractContentModel(AbstractSluggedModel):
-    
-    content_type = models.CharField(max_length=50, choices=ContentType.choices, default=ContentType.MD)  # Không cần db_index
-    content = models.JSONField(blank=True, null=True)  # Không cần db_index
-
-    created_at = models.DateTimeField(auto_now_add=True, db_index=True)  # Giữ db_index
-    updated_at = models.DateTimeField(auto_now=True, db_index=True)  # Giữ db_index
-
-    class Meta:
-        abstract = True
-
+# Mô hình User, kế thừa từ AbstractUser
 class User(AbstractUser):
-    phone = models.CharField(max_length=15, blank=True, null=True)  # Không cần db_index
-
-class Tag(AbstractSluggedModel):
-    name = models.CharField(max_length=50, unique=True, db_index=True)  # Giữ db_index, vì tag có thể dùng trong tìm kiếm
-
-class Category(AbstractSluggedModel):
-    description = models.TextField()  # Không cần db_index
-
-class Course(AbstractContentModel):
-    # description = models.TextField()  # Không cần db_index
-    tags = models.ManyToManyField(Tag, related_name='courses')  # Không cần db_index
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='courses', db_index=True)  # Giữ db_index, thường dùng để filter, join
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='courses', db_index=True)  # Giữ db_index
-    img_url = models.URLField(blank=True, null=True)  # Không cần db_index
-    price = models.DecimalField(max_digits=10, decimal_places=2, db_index=True)  # Giữ db_index, thường dùng để filter, sort
-
-class Chapter(AbstractContentModel):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='chapters', db_index=True)  # Giữ db_index
-    order = models.PositiveIntegerField(db_index=True)  # Giữ db_index, có thể dùng trong sắp xếp
-
-    def __str__(self):
-        return f'Chapter {self.order}: {self.name}'
+    phone = models.CharField(max_length=15, blank=True, null=True, db_index=True)  # Thêm db_index cho phone
+    address = models.ManyToManyField('Address', blank=True)
 
     class Meta:
-        unique_together = ('course', 'order')
         indexes = [
-            models.Index(fields=['course', 'order']),
+            models.Index(fields=['username']),  # Thêm index cho trường username
+            models.Index(fields=['email']),     # Thêm index cho trường email
         ]
 
-class Lesson(AbstractContentModel):
-    chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE, related_name='lessons', db_index=True)  # Giữ db_index
-    order = models.PositiveIntegerField(db_index=True)  # Giữ db_index, có thể dùng trong sắp xếp
-
-    def __str__(self):
-        return f'Lesson {self.order}: {self.name}'
+class Address(models.Model):
+    street = models.CharField(max_length=255)
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    zip = models.CharField(max_length=10)
+    country = models.CharField(max_length=100)
 
     class Meta:
-        unique_together = ('chapter', 'order')
         indexes = [
-            models.Index(fields=['chapter', 'order']),
+            models.Index(fields=['city', 'state']),  # Thêm index cho city và state
         ]
+
+class Instructor(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    specialty = models.CharField(max_length=100)
+    bio = models.TextField()
+
+class Course(models.Model):
+    name = models.CharField(max_length=255)
+    img_url = models.URLField(blank=True)
+    price = models.FloatField()
+    author = models.ForeignKey(Instructor, on_delete=models.CASCADE)
+    category = models.ManyToManyField('Category')
+    chapters = models.ManyToManyField('Chapter', blank=True)
+    tags = models.ManyToManyField('Tag', blank=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['name']),  # Thêm index cho tên khóa học
+            models.Index(fields=['price']),  # Thêm index cho giá khóa học
+        ]
+
+class Tag(models.Model):
+    name = models.CharField(max_length=100)
+
+class Review(models.Model):
+    comment = models.TextField()
+    rating = models.IntegerField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['rating']),  # Thêm index cho rating
+        ]
+
+class Lesson(models.Model):
+    name = models.CharField(max_length=255)
+    content = models.TextField()
+    reviews = models.ManyToManyField(Review, blank=True)
+    exercises = models.ManyToManyField('Exercise', blank=True)
+
+class Chapter(models.Model):
+    name = models.CharField(max_length=255)
+    content = models.TextField()
+    lessons = models.ManyToManyField(Lesson, blank=True)
 
 class UserEnrollment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_enrollments', db_index=True)  # Giữ db_index
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='user_enrollments', db_index=True)  # Giữ db_index
-    created_at = models.DateTimeField(auto_now_add=True, db_index=True)  # Giữ db_index
-    updated_at = models.DateTimeField(auto_now=True, db_index=True)  # Giữ db_index
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    audit = models.OneToOneField('Audit', on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = ('user', 'course')
         indexes = [
-            models.Index(fields=['user', 'course']),
+            models.Index(fields=['user', 'course']),  # Thêm index cho user và course
         ]
 
-class AbstractReview(models.Model):
-    # course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='reviews', db_index=True)  # Giữ db_index
-    # lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='reviews', db_index=True)  # Giữ db_index
-    rating = models.PositiveIntegerField(db_index=True)  # Giữ db_index, thường dùng để filter
-    comment = models.TextField()  # Không cần db_index
-    created_at = models.DateTimeField(auto_now_add=True, db_index=True)  # Giữ db_index
-    updated_at = models.DateTimeField(auto_now=True, db_index=True)  # Giữ db_index
+class Exercise(models.Model):
+    level = models.CharField(max_length=50)
+    content = models.TextField()
+    submissions = models.ManyToManyField('UserSubmission', blank=True)
+
+class Submission(models.Model):
+    code = models.TextField()
+    grade = models.FloatField()
+    audit = models.OneToOneField('Audit', on_delete=models.CASCADE)
+
+class UserSubmission(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    submission = models.ForeignKey(Submission, on_delete=models.CASCADE)
+
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+
+class Audit(models.Model):
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
+    created_by = models.CharField(max_length=100)
+    updated_by = models.CharField(max_length=100)
+
+class Payment(models.Model):
+    amount = models.FloatField()
+    date = models.DateTimeField(default=timezone.now)
+    status = models.CharField(max_length=50)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    courses = models.ManyToManyField(Course)
 
     class Meta:
-        abstract = True
-
-class CourseReview(AbstractReview):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='course_reviews', db_index=True)  # Giữ db_index
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='reviews', db_index=True)  # Giữ db_index
-
-    class Meta:
-        unique_together = ('user', 'course')
         indexes = [
-            models.Index(fields=['user', 'course']),
+            models.Index(fields=['date']),  # Thêm index cho ngày thanh toán
         ]
 
-class LessonReview(AbstractReview):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='lesson_reviews', db_index=True)  # Giữ db_index
-    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='reviews', db_index=True)  # Giữ db_index
+class Notification(models.Model):
+    message = models.TextField()
+    date_sent = models.DateTimeField(default=timezone.now)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+class Subscription(models.Model):
+    start_date = models.DateTimeField(default=timezone.now)
+    end_date = models.DateTimeField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    courses = models.ManyToManyField(Course)
+    status = models.CharField(max_length=50)
+    audit = models.OneToOneField(Audit, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = ('user', 'lesson')
         indexes = [
-            models.Index(fields=['user', 'lesson']),
+            models.Index(fields=['start_date', 'end_date']),  # Thêm index cho ngày bắt đầu và ngày kết thúc
         ]
-
-
-
-# class Payment(models.Model):
-#     class Status(models.TextChoices):
-#         PENDING = 'pending', 'Pending'
-#         COMPLETED = 'completed', 'Completed'
-#         FAILED = 'failed', 'Failed'
-
-#     user = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True)  # Giữ db_index
-#     course = models.ForeignKey(Course, on_delete=models.CASCADE, db_index=True)  # Giữ db_index
-#     amount = models.DecimalField(max_digits=10, decimal_places=2, db_index=True)  # Giữ db_index, thường dùng để filter
-#     status = models.CharField(max_length=50, choices=Status.choices, default=Status.PENDING, db_index=True)  # Giữ db_index, thường dùng để filter
-#     created_at = models.DateTimeField(auto_now_add=True, db_index=True)  # Giữ db_index
-#     updated_at = models.DateTimeField(auto_now=True, db_index=True)  # Giữ db_index
-
-#     class Meta:
-#         indexes = [
-#             models.Index(fields=['user', 'course']),
-#         ]
