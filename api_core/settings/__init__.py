@@ -33,12 +33,12 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    # 'django.contrib.admin',
+    'django.contrib.admin', #^ Turn off the admin when using Restfull API
     'django.contrib.auth',
-    'django.contrib.contenttypes',
-    # 'django.contrib.sessions',
-    # 'django.contrib.messages',
-    # 'django.contrib.staticfiles',
+    'django.contrib.contenttypes', #^ Turn off the contenttypes when using Restfull API
+    'django.contrib.sessions', #^ Turn off the contenttypes when using Restfull API
+    'django.contrib.messages', #^ Turn off the contenttypes when using Restfull API
+    'django.contrib.staticfiles', #^ Turn off the contenttypes when using Restfull API
     #^ Libraries Apps
     'ninja_extra',
     'ninja_jwt',
@@ -113,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'vi-vn'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Ho_Chi_Minh'
 
 USE_I18N = True
 

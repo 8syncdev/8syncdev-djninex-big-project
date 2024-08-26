@@ -11,7 +11,7 @@
             - Công ty Cổ Phần Điện Lực Minh Khang.
             - Co-Leader of Teaching Assistant.
 '''
-# from django.contrib import admin
+from django.contrib import admin
 from django.urls import path
 from ninja_extra import NinjaExtraAPI
 from api_core.dev import (
@@ -40,7 +40,9 @@ api.register_controllers(
 )
 
 
+admin.site.site_header = 'API Core Admin'
+
 urlpatterns = [
-    # path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('api/', api.urls),
 ]
