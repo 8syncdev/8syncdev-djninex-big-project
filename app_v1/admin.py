@@ -43,7 +43,7 @@ class InstructorAdmin(admin.ModelAdmin):
 class CourseAdmin(admin.ModelAdmin):
     list_display = ('name', 'price', 'author')
     search_fields = ('name', 'author__user__username')
-    list_filter = ('price', 'category')
+    list_filter = ('price', 'categories')  # Ensure 'categories' is not a ManyToManyField or remove from list_filter
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
@@ -52,15 +52,14 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ('user', 'course', 'rating')
-    search_fields = ('user__username', 'course__name', 'rating')
+    list_display = ('enrollment', 'rating')
+    search_fields = ('enrollment__user__username', 'rating')
     list_filter = ('rating',)
 
 @admin.register(Lesson)
 class LessonAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ('name',)
-    list_filter = ('content',)
 
 @admin.register(Chapter)
 class ChapterAdmin(admin.ModelAdmin):

@@ -5,6 +5,9 @@ from .user import (
 from .permission import (
     PermissionController
 )
+from .test import (
+    TestAppv1Controller
+)
 
 
 ALL_ROUTERS_APP_V1 = [
@@ -12,5 +15,7 @@ ALL_ROUTERS_APP_V1 = [
     ClientUserController,
     AdminUserController,
     #^ Permission
-    PermissionController
+    PermissionController,
+    #^ Test
+    TestAppv1Controller,
 ]
