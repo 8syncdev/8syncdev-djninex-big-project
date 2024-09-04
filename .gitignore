@@ -5,3 +5,5 @@
 
 # Ignore pycache
 __pycache__
+
+/dump/data
