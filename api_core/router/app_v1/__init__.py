@@ -9,6 +9,14 @@ from .test import (
     TestAppv1Controller
 )
 
+from .course import (
+    CourseController
+)
+
+from .payment import (
+    PaymentController
+)
+
 
 ALL_ROUTERS_APP_V1 = [
     #^ User
@@ -18,4 +26,8 @@ ALL_ROUTERS_APP_V1 = [
     PermissionController,
     #^ Test
     TestAppv1Controller,
+    #^ Course
+    CourseController,
+    #^ Payment
+    PaymentController,
 ]

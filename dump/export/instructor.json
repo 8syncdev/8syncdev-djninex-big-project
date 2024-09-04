@@ -1,0 +1,29 @@
+[
+  {
+    "model": "app_v1.instructor",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "specialty": "Python Programming",
+      "bio": "Experienced Python developer with a passion for teaching."
+    }
+  },
+  {
+    "model": "app_v1.instructor",
+    "pk": 2,
+    "fields": {
+      "user": 2,
+      "specialty": "Web Development",
+      "bio": "Full-stack web developer specializing in modern JavaScript frameworks."
+    }
+  },
+  {
+    "model": "app_v1.instructor",
+    "pk": 3,
+    "fields": {
+      "user": 3,
+      "specialty": "Data Science",
+      "bio": "Data scientist with expertise in machine learning and statistical analysis."
+    }
+  }
+]

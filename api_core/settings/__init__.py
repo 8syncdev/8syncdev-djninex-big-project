@@ -18,7 +18,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from api_core import (
     BASE_DIR,
-    #^ Load the .env file
+    #* Load the .env file
     SECRET_KEY, # SECURITY WARNING: keep the secret key used in production secret!
     DEBUG, # SECURITY WARNING: don't run with debug turned on in production!
 )
@@ -33,23 +33,25 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin', #^ Turn off the admin when using Restfull API
+    'django.contrib.admin', #* Turn off the admin when using Restfull API
     'django.contrib.auth',
-    'django.contrib.contenttypes', #^ Turn off the contenttypes when using Restfull API
-    'django.contrib.sessions', #^ Turn off the contenttypes when using Restfull API
-    'django.contrib.messages', #^ Turn off the contenttypes when using Restfull API
-    'django.contrib.staticfiles', #^ Turn off the contenttypes when using Restfull API
-    #^ Libraries Apps
+    'django.contrib.contenttypes', #* Turn off the contenttypes when using Restfull API
+    'django.contrib.sessions', #* Turn off the contenttypes when using Restfull API
+    'django.contrib.messages', #* Turn off the contenttypes when using Restfull API
+    'django.contrib.staticfiles', #* Turn off the contenttypes when using Restfull API
+    #* Libraries Apps
+    'corsheaders',
     'ninja_extra',
     'ninja_jwt',
-    'django_extensions' if DEBUG else '',
-    #^ My Apps
+    # 'django_extensions' if DEBUG else '',
+    #* My Apps
     'app_v1',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -87,6 +89,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+DEFAULT_CHARSET = 'utf-8'
 
 
 # Password validation
@@ -131,13 +134,25 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-#^ Custom User Model
+#* Custom User Model
 AUTH_USER_MODEL = 'app_v1.User'
 
-#^ Ninja Extra Pagination
+#* Ninja Extra Pagination
 NINJA_EXTRA={
     'PAGINATION_CLASS': 'api_core.dev.pagination.custom.CustomPagination',
 }
 
-#^ Custom Ninja JWT
-from .dev import NINJA_JWT
+#* Custom Devs
+from .dev import (
+    #* Custom JWT
+    NINJA_JWT, 
+    #* Cors Headers
+    CORS_ALLOWED_ORIGINS, 
+    CORS_ALLOW_CREDENTIALS,
+    CORS_ALLOW_METHODS,
+    CORS_ALLOW_HEADERS,
+    CORS_ALLOW_ALL_ORIGINS,
+    CORS_ALLOW_PRIVATE_NETWORK,
+)
+
+

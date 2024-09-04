@@ -1,13 +1,15 @@
 from api_core.common.restfull import *
 from .service import (
     populate_database,
-    delete_all
+    delete_all,
+    populate_data
 )
 
 
 
 @api_controller(
     prefix_or_class='/test-appv1',
+    tags=['Test Appv1'],
 )
 class TestAppv1Controller:
 
@@ -15,13 +17,27 @@ class TestAppv1Controller:
         pass
 
     @route.get(
-        path='/create-realdata',
+        path='/create-realdata-fakerlib',
     )
     def create_realdata(self):
         try:
-            populate_database()
+            populate_database(records_per_model=10)
             return {
                 'message': 'Populated database successfully'
+            }
+        except Exception as e:
+            return {
+                'message': str(e)
+            }
+        
+    @route.get(
+        path='/create-testdata-manual',
+    )
+    def create_testdata(self):
+        try:
+            populate_data()
+            return {
+                'message': 'Created test data successfully'
             }
         except Exception as e:
             return {

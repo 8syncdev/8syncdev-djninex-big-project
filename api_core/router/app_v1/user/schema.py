@@ -8,6 +8,7 @@ class ClientUserInputSchema(ModelSchema):
         model = User
         fields = (
             'username',
+            'phone',
             'password',
         )
 

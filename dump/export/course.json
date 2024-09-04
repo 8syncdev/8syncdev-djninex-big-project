@@ -1,0 +1,94 @@
+[
+    {
+        "model": "app_v1.course",
+        "pk": 1,
+        "fields": {
+            "name": "Làm Chủ Python Hoàn Toàn",
+            "img_url": "https://firebasestorage.googleapis.com/v0/b/nextjs-djninex-store.appspot.com/o/image-upload%2Fpython.webp?alt=media&token=4da2d9fb-d7ae-42c7-8ee2-bc5805a4b1cd",
+            "price": 350000.0,
+            "description": "Tất cả những gì bạn cần để lập trình bằng Python trong một khóa học (bao gồm 3 dự án thực tế)",
+            "author": 1,
+            "voucher": null,
+            "created_at": "2024-08-30T16:16:58.383Z",
+            "updated_at": "2024-08-30T16:16:58.595Z",
+            "categories": [],
+            "chapters": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+            ]
+        }
+    },
+    {
+        "model": "app_v1.course",
+        "pk": 2,
+        "fields": {
+            "name": "Làm Chủ Django Hoàn Toàn",
+            "img_url": "https://firebasestorage.googleapis.com/v0/b/nextjs-djninex-store.appspot.com/o/image-upload%2Fdjango.webp?alt=media&token=cc3432f6-3f26-4ce5-bdd2-a1dce72cf94b",
+            "price": 350000.0,
+            "description": "Học cách xây dựng ứng dụng web mạnh mẽ với Django - Framework Python phổ biến nhất cho phát triển web",
+            "author": 1,
+            "voucher": null,
+            "created_at": "2024-08-30T16:16:58.426Z",
+            "updated_at": "2024-08-30T16:16:58.690Z",
+            "categories": [],
+            "chapters": []
+        }
+    },
+    {
+        "model": "app_v1.course",
+        "pk": 3,
+        "fields": {
+            "name": "Next.js: Từ Cơ Bản Đến Nâng Cao",
+            "img_url": "https://firebasestorage.googleapis.com/v0/b/nextjs-djninex-store.appspot.com/o/image-upload%2Fnextjs.webp?alt=media&token=dbd81265-44f8-4606-b986-2187bc166c63",
+            "price": 350000.0,
+            "description": "Học cách xây dựng ứng dụng web hiện đại, hiệu suất cao với Next.js - Framework React phổ biến cho phát triển ứng dụng",
+            "author": 1,
+            "voucher": null,
+            "created_at": "2024-08-30T16:16:58.444Z",
+            "updated_at": "2024-08-30T16:16:58.791Z",
+            "categories": [],
+            "chapters": []
+        }
+    },
+    {
+        "model": "app_v1.course",
+        "pk": 4,
+        "fields": {
+            "name": "Làm Chủ React.js Hoàn Toàn",
+            "img_url": "https://firebasestorage.googleapis.com/v0/b/nextjs-djninex-store.appspot.com/o/image-upload%2Freactts.webp?alt=media&token=22946621-f501-47ce-9d11-052a902e8fff",
+            "price": 350000.0,
+            "description": "Học cách xây dựng ứng dụng web động và tương tác với React.js - Thư viện JavaScript phổ biến cho phát triển giao diện người dùng",
+            "author": 1,
+            "voucher": null,
+            "created_at": "2024-08-30T16:16:58.473Z",
+            "updated_at": "2024-08-30T16:16:58.891Z",
+            "categories": [],
+            "chapters": []
+        }
+    },
+    {
+        "model": "app_v1.course",
+        "pk": 5,
+        "fields": {
+            "name": "Kỹ thuật Python nâng cao",
+            "img_url": "https://firebasestorage.googleapis.com/v0/b/nextjs-djninex-store.appspot.com/o/image-upload%2Fpython.webp?alt=media&token=4da2d9fb-d7ae-42c7-8ee2-bc5805a4b1cd",
+            "price": 350000.0,
+            "description": "Nâng cao kỹ năng Python của bạn với các kỹ thuật và khái niệm nâng cao",
+            "author": 1,
+            "voucher": null,
+            "created_at": "2024-08-30T16:16:58.505Z",
+            "updated_at": "2024-08-30T16:16:59.089Z",
+            "categories": [],
+            "chapters": []
+        }
+    }
+]

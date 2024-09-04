@@ -8,6 +8,8 @@ from ninja_extra.permissions import (
 
 from ninja_extra import permissions
 
+from app_v1.models import *
+
 from api_core import Request
 
 class ReadOnly(permissions.BasePermission):
@@ -21,3 +23,5 @@ class UserWithPermission(permissions.BasePermission):
 
     def has_permission(self, request: Request, view):
         return request.user.has_perm(self._permission)
+
+

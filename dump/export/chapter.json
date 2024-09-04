@@ -1,0 +1,225 @@
+[
+    {
+        "model": "app_v1.chapter",
+        "pk": 1,
+        "fields": {
+            "name": "1 - Cơ Bản",
+            "content": "",
+            "lessons": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28
+            ]
+        }
+    },
+    {
+        "model": "app_v1.chapter",
+        "pk": 2,
+        "fields": {
+            "name": "2 - Luồng Điều Khiển",
+            "content": "",
+            "lessons": [
+                29,
+                30,
+                31,
+                32,
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                39,
+                40,
+                41,
+                42
+            ]
+        }
+    },
+    {
+        "model": "app_v1.chapter",
+        "pk": 3,
+        "fields": {
+            "name": "3 - Hàm Chức Năng",
+            "content": "",
+            "lessons": [
+                43,
+                44,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52
+            ]
+        }
+    },
+    {
+        "model": "app_v1.chapter",
+        "pk": 4,
+        "fields": {
+            "name": "4 - Chuỗi Kí Tự",
+            "content": "",
+            "lessons": [
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60
+            ]
+        }
+    },
+    {
+        "model": "app_v1.chapter",
+        "pk": 5,
+        "fields": {
+            "name": "5 - Danh Sách",
+            "content": "",
+            "lessons": [
+                61,
+                62,
+                63,
+                64,
+                65,
+                66,
+                67,
+                68,
+                69,
+                70,
+                71
+            ]
+        }
+    },
+    {
+        "model": "app_v1.chapter",
+        "pk": 6,
+        "fields": {
+            "name": "6 - Bộ (Tuple)",
+            "content": "",
+            "lessons": [
+                72,
+                73,
+                74,
+                75,
+                76,
+                77,
+                78
+            ]
+        }
+    },
+    {
+        "model": "app_v1.chapter",
+        "pk": 7,
+        "fields": {
+            "name": "7 - Tập Hợp",
+            "content": "",
+            "lessons": [
+                79,
+                80,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87
+            ]
+        }
+    },
+    {
+        "model": "app_v1.chapter",
+        "pk": 8,
+        "fields": {
+            "name": "8 - Từ Điển",
+            "content": "",
+            "lessons": [
+                88,
+                89,
+                90,
+                91,
+                92,
+                93,
+                94,
+                95,
+                96
+            ]
+        }
+    },
+    {
+        "model": "app_v1.chapter",
+        "pk": 9,
+        "fields": {
+            "name": "9 - Mảng",
+            "content": "",
+            "lessons": [
+                97,
+                98,
+                99,
+                100,
+                101,
+                102,
+                103,
+                104,
+                105,
+                106,
+                107
+            ]
+        }
+    },
+    {
+        "model": "app_v1.chapter",
+        "pk": 10,
+        "fields": {
+            "name": "10 - Xử Lí File",
+            "content": "",
+            "lessons": [
+                108,
+                109,
+                110,
+                111,
+                112,
+                113,
+                114
+            ]
+        }
+    },
+    {
+        "model": "app_v1.chapter",
+        "pk": 11,
+        "fields": {
+            "name": "11 - OOP",
+            "content": "",
+            "lessons": []
+        }
+    }
+]

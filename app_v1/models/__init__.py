@@ -2,17 +2,21 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 
+
 # User model, inheriting from Django's AbstractUser
 class User(AbstractUser):
-    phone = models.CharField(max_length=15, blank=True, null=True, db_index=True)
-    address = models.ManyToManyField('Address', blank=True, related_name='users')
-    
-   
+    phone = models.CharField(max_length=15, blank=True, null=True, db_index=True, unique=True)
+    addresses = models.ManyToManyField('Address', blank=True, related_name='users')
+
     class Meta:
         indexes = [
             models.Index(fields=['username']),
             models.Index(fields=['email']),
         ]
+
+    def __str__(self):
+        return self.username
+
 
 class Address(models.Model):
     street = models.CharField(max_length=255)
@@ -26,20 +30,31 @@ class Address(models.Model):
             models.Index(fields=['city', 'state']),
         ]
 
+    def __str__(self):
+        return f"{self.street}, {self.city}, {self.state}, {self.country}"
+
+
 class Instructor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='instructor_profile')
     specialty = models.CharField(max_length=100)
     bio = models.TextField()
 
+    def __str__(self):
+        return f"Instructor: {self.user.username} - Specialty: {self.specialty}"
+
+
 class Course(models.Model):
     name = models.CharField(max_length=255)
     img_url = models.URLField(blank=True)
     price = models.FloatField()
+    description = models.TextField(null=True, blank=True)
+
     author = models.ForeignKey(Instructor, on_delete=models.CASCADE, related_name='courses')
     categories = models.ManyToManyField('Category', blank=True, related_name='courses')
     chapters = models.ManyToManyField('Chapter', blank=True, related_name='courses')
-    tags = models.ManyToManyField('Tag', blank=True, related_name='courses')
-    reviews = models.ManyToManyField('Review', blank=True, related_name='courses')
+    voucher = models.OneToOneField('Voucher', null=True, blank=True, on_delete=models.SET_NULL, related_name='course')
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         indexes = [
@@ -47,89 +62,188 @@ class Course(models.Model):
             models.Index(fields=['price']),
         ]
 
-class Tag(models.Model):
-    name = models.CharField(max_length=100)
+    def __str__(self):
+        return self.name
+
+
+class Voucher(models.Model):
+    code = models.CharField(max_length=50, unique=True)
+    discount = models.FloatField()
+    expiration_date = models.DateTimeField()
+
+    def __str__(self):
+        return self.code
+
 
 class Review(models.Model):
     comment = models.TextField()
-    rating = models.IntegerField()
-    enrollment = models.ForeignKey('UserEnrollment', on_delete=models.CASCADE, related_name='reviews')
+    rating = models.IntegerField(choices=[
+        (1, '1 - Poor'),
+        (2, '2 - Fair'),
+        (3, '3 - Good'),
+        (4, '4 - Very Good'),
+        (5, '5 - Excellent'),
+    ])
+    user_enrollment = models.ForeignKey('UserEnrollment', on_delete=models.CASCADE, related_name='reviews')
 
-    class Meta:
-        indexes = [
-            models.Index(fields=['rating']),
-        ]
+    def __str__(self):
+        return f"Review by {self.user_enrollment.user.username} - Rating: {self.rating}"
+
 
 class Lesson(models.Model):
     name = models.CharField(max_length=255)
     content = models.TextField()
+    url_video = models.URLField(null=True)
+
+    reviews = models.ManyToManyField(Review, blank=True, related_name='lessons')
     exercises = models.ManyToManyField('Exercise', blank=True, related_name='lessons')
+
+    def __str__(self):
+        return self.name
+
 
 class Chapter(models.Model):
     name = models.CharField(max_length=255)
     content = models.TextField()
     lessons = models.ManyToManyField(Lesson, blank=True, related_name='chapters')
 
+    def __str__(self):
+        return self.name
+
+
 class UserEnrollment(models.Model):
+    STATUS_ENROLLED = 'enrolled'
+    STATUS_COMPLETED = 'completed'
+    STATUS_CANCELLED = 'cancelled'
+    STATUS_PENDING = 'pending'
+
+    ENROLLMENT_STATUS_CHOICES = [
+        (STATUS_ENROLLED, 'Enrolled'),
+        (STATUS_COMPLETED, 'Completed'),
+        (STATUS_CANCELLED, 'Cancelled'),
+        (STATUS_PENDING, 'Pending'),
+    ]
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='enrollments')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='enrollments')
-    audit = models.OneToOneField('Audit', on_delete=models.CASCADE, related_name='enrollment')
+    status = models.CharField(max_length=50, choices=ENROLLMENT_STATUS_CHOICES, default=STATUS_PENDING)
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
+    expiration_date = models.DateTimeField(default=timezone.now() + timezone.timedelta(minutes=10))
+
 
     class Meta:
         indexes = [
             models.Index(fields=['user', 'course']),
         ]
 
+    def __str__(self):
+        return f"Enrollment: {self.user.username} in {self.course.name} - Status: {self.status}"
+
+
 class Exercise(models.Model):
-    level = models.CharField(max_length=50)
+    name = models.CharField(max_length=255)
+    level = models.CharField(max_length=50, choices=[
+        ('beginner', 'Beginner'),
+        ('intermediate', 'Intermediate'),
+        ('advanced', 'Advanced'),
+    ])
     content = models.TextField()
-    submissions = models.ManyToManyField('UserSubmission', blank=True, related_name='exercises')
+
+    def __str__(self):
+        return self.name
+
 
 class Submission(models.Model):
     code = models.TextField()
     grade = models.FloatField()
-    audit = models.OneToOneField('Audit', on_delete=models.CASCADE, related_name='submission')
+
+    def __str__(self):
+        return f"Submission with Grade: {self.grade}"
+
 
 class UserSubmission(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='submissions')
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE, related_name='user_submissions')
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE, related_name='user_submissions')
 
+    def __str__(self):
+        return f"Submission by {self.user.username} for {self.exercise.name}"
+
+
 class Category(models.Model):
     name = models.CharField(max_length=100)
 
-class Audit(models.Model):
-    created_at = models.DateTimeField(default=timezone.now)
-    updated_at = models.DateTimeField(auto_now=True)
-    created_by = models.CharField(max_length=100)
-    updated_by = models.CharField(max_length=100)
+    def __str__(self):
+        return self.name
+
 
 class Payment(models.Model):
+    STATUS_PENDING = 'pending'
+    STATUS_COMPLETED = 'completed'
+    STATUS_FAILED = 'failed'
+
+    PAYMENT_STATUS_CHOICES = [
+        (STATUS_PENDING, 'Pending'),
+        (STATUS_COMPLETED, 'Completed'),
+        (STATUS_FAILED, 'Failed'),
+    ]
+
     amount = models.FloatField()
     date = models.DateTimeField(default=timezone.now)
-    status = models.CharField(max_length=50)
+    status = models.CharField(max_length=50, choices=PAYMENT_STATUS_CHOICES, default=STATUS_PENDING)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='payments')
-    courses = models.ManyToManyField(Course, related_name='payments')
+    message = models.JSONField(null=True, blank=True)
 
-    class Meta:
-        indexes = [
-            models.Index(fields=['date']),
-        ]
+    def __str__(self):
+        return f"Payment of {self.amount} by {self.user.username} - Status: {self.status}"
+
 
 class Notification(models.Model):
+    TYPE_INFO = 'info'
+    TYPE_WARNING = 'warning'
+    TYPE_ERROR = 'error'
+
+    NOTIFICATION_TYPE_CHOICES = [
+        (TYPE_INFO, 'Info'),
+        (TYPE_WARNING, 'Warning'),
+        (TYPE_ERROR, 'Error'),
+    ]
+
     message = models.TextField()
     date_sent = models.DateTimeField(default=timezone.now)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
+    notification_type = models.CharField(max_length=50, choices=NOTIFICATION_TYPE_CHOICES, default=TYPE_INFO)
+
+    def __str__(self):
+        return f"Notification for {self.user.username} - Type: {self.notification_type}"
+
 
 class Subscription(models.Model):
+    STATUS_ACTIVE = 'active'
+    STATUS_INACTIVE = 'inactive'
+    STATUS_EXPIRED = 'expired'
+    STATUS_PENDING = 'pending'
+    STATUS_CANCELLED = 'cancelled'
+
+    SUBSCRIPTION_STATUS_CHOICES = [
+        (STATUS_ACTIVE, 'Active'),
+        (STATUS_INACTIVE, 'Inactive'),
+        (STATUS_EXPIRED, 'Expired'),
+        (STATUS_PENDING, 'Pending'),
+        (STATUS_CANCELLED, 'Cancelled'),
+    ]
+
     start_date = models.DateTimeField(default=timezone.now)
     end_date = models.DateTimeField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='subscriptions')
+    status = models.CharField(max_length=50, choices=SUBSCRIPTION_STATUS_CHOICES, default=STATUS_ACTIVE)
     courses = models.ManyToManyField(Course, related_name='subscriptions')
-    status = models.CharField(max_length=50)
-    audit = models.OneToOneField(Audit, on_delete=models.CASCADE, related_name='subscription')
 
     class Meta:
         indexes = [
             models.Index(fields=['start_date', 'end_date']),
         ]
+
+    def __str__(self):
+        return f"Subscription for {self.user.username} - Status: {self.status}"

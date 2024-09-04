@@ -4,7 +4,6 @@ from app_v1.models import (
     Address,
     Instructor,
     Course,
-    Tag,
     Review,
     Lesson,
     Chapter,
@@ -13,7 +12,6 @@ from app_v1.models import (
     Submission,
     UserSubmission,
     Category,
-    Audit,
     Payment,
     Notification,
     Subscription
@@ -45,15 +43,12 @@ class CourseAdmin(admin.ModelAdmin):
     search_fields = ('name', 'author__user__username')
     list_filter = ('price', 'categories')  # Ensure 'categories' is not a ManyToManyField or remove from list_filter
 
-@admin.register(Tag)
-class TagAdmin(admin.ModelAdmin):
-    list_display = ('name',)
-    search_fields = ('name',)
+
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ('enrollment', 'rating')
-    search_fields = ('enrollment__user__username', 'rating')
+    list_display = ('user_enrollment', 'rating')
+    search_fields = ('user_enrollment__user__username', 'rating')
     list_filter = ('rating',)
 
 @admin.register(Lesson)
@@ -91,11 +86,6 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ('name',)
 
-@admin.register(Audit)
-class AuditAdmin(admin.ModelAdmin):
-    list_display = ('created_at', 'updated_at', 'created_by', 'updated_by')
-    search_fields = ('created_by', 'updated_by')
-    list_filter = ('created_at', 'updated_at')
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):

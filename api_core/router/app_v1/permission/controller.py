@@ -54,6 +54,11 @@ class PermissionController:
         summary='Check permission of user',
     )
     async def check_permission_data(self, username: str, permission: str):
+        '''
+        Example:
+        - username: admin
+        - permission: admin.add_address
+        '''
         try:
             res = await self.permission_service.check_permission(username, permission)
             return res_valid(res)
@@ -65,6 +70,11 @@ class PermissionController:
         summary='Add permission to user',
     )
     async def add_permission_to_user(self, request, username: str, permission: str):
+        '''
+        Example:
+        - username: admin
+        - permission: add_address
+        '''
         try:
             res = await self.permission_service.add_permission_to_user(username, permission)
             return res_valid(res)
@@ -76,6 +86,11 @@ class PermissionController:
         summary='Delete permission from user',
     )
     async def delete_permission_from_user(self, request, username: str, permission: str):
+        '''
+        Example:
+        - username: admin
+        - permission: add_address
+        '''
         try:
             res = await self.permission_service.delete_permission_from_user(username, permission)
             return res_valid(res)

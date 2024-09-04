@@ -4,7 +4,7 @@ from ninja_extra.pagination import (
     PaginationBase
 )
 
-from typing import Callable
+from typing import Any, List
 
 from pydantic import Field
 from ninja import Schema

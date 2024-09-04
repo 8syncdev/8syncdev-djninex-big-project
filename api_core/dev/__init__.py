@@ -1,6 +1,8 @@
 from .asyncreq import (
     alist,
     sta, #^ Sync to Async
+    alist_model,
+    afilter,
     builtin as asyncreq_builtin,
 )
 

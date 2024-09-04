@@ -1,0 +1,172 @@
+@startuml
+
+skinparam class {
+  FontName "Helvetica"
+  FontSize 10
+  BackgroundColor White
+  BorderColor Black
+}
+
+class User {
+  + username: string
+  + password: string
+  + email: string
+  + phone: string
+  + address: List[Address]
+  + roles: List[Role]
+  + login(): boolean
+  + logout(): void
+  + add_role(role: Role): void
+  + remove_role(role: Role): void
+}
+
+class Instructor {
+  + specialty: string
+  + bio: string
+  + create_course(course: Course): void
+  + assign_course(course: Course): void
+}
+
+class Address {
+  + street: string
+  + city: string
+  + state: string
+  + zip: string
+  + country: string
+}
+
+class Course {
+  + name: string
+  + img_url: string
+  + price: float
+  + author: Instructor
+  + category: List[Category]
+  + chapters: List[Chapter]
+  + voucher: Voucher
+  + created_at: datetime
+  + updated_at: datetime
+  + add_chapter(chapter: Chapter): void
+  + remove_chapter(chapter: Chapter): void
+}
+
+class Voucher {
+  + code: string
+  + discount: float
+  + expiration_date: datetime
+  + apply_voucher(user: User): boolean
+  + is_valid(): boolean
+}
+
+class Review {
+  + comment: string
+  + rating: int
+  + approve_review(): void
+  + reject_review(): void
+  + check_enrolled_user(user: User): boolean
+}
+
+class Lesson {
+  + name: string
+  + content: string
+  + reviews: List[Review]
+  + exercises: List[Exercise]
+  + add_exercise(exercise: Exercise): void
+  + update_content(content: string): void
+}
+
+class Chapter {
+  + name: string
+  + content: string
+  + lessons: List[Lesson]
+  + add_lesson(lesson: Lesson): void
+  + remove_lesson(lesson: Lesson): void
+}
+
+class UserEnrollment {
+  + user: User
+  + course: Course
+  + status: string
+  + created_at: datetime
+  + updated_at: datetime
+  + enroll_user(user: User): void
+  + cancel_enrollment(user: User): void
+}
+
+class Exercise {
+  + level: string
+  + content: string
+  + update_content(content: string): void
+}
+
+class Submission {
+  + code: string
+  + grade: float
+  + grade_submission(grade: float): void
+}
+
+class Role {
+  + name: string
+}
+
+class UserSubmission {
+  + user: User
+  + submission: Submission
+  + exercise: Exercise
+  + submit_assignment(submission: Submission): void
+}
+
+class Category {
+  + name: string
+}
+
+class Payment {
+  + amount: float
+  + date: datetime
+  + content: string
+  + status: string
+  + user: User
+  + created_at: datetime
+  + updated_at: datetime
+  + process_payment(): void
+  + refund(): void
+}
+
+class Notification {
+  + message: string
+  + date_sent: datetime
+  + user: User
+  + send(): void
+  + schedule(): void
+}
+
+class Subscription {
+  + start_date: datetime
+  + end_date: datetime
+  + user: User
+  + courses: List[Course]
+  + status: string
+  + renew_subscription(): void
+  + cancel_subscription(): void
+}
+
+User <|-- Instructor : inherits
+User "1" *--> "N" UserEnrollment : enrolled_by
+User "1" *--> "N" Notification : sent_to
+User "1" *--> "N" Subscription : subscribed_by
+User "N" o--> "1" Address : associated_with
+User "N" *--> "N" Role : has_roles
+User "1" *--> "N" Payment : made_payments
+
+Course "1" *--> "N" UserEnrollment : has_enrolled_users
+Course "N" *--> "1" Chapter : part_of
+Course "N" o--> "N" Category : categorized_as
+Course "1" o--> "1" Voucher : applied_to
+
+Chapter "N" *--> "1" Lesson : part_of
+Lesson "N" o--> "1" Exercise : part_of
+Lesson "N" o--> "1" Review : associated_with
+
+UserSubmission "N" o--> "1" Exercise : related_to
+UserSubmission "N" o--> "1" Submission : related_to
+
+@enduml
