@@ -6,4 +6,4 @@
 # Ignore pycache
 __pycache__
 
-data-md
+/dump/data-md
