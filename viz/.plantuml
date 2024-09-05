@@ -1,5 +1,11 @@
 @startuml
 
+' Set page orientation to landscape
+skinparam pageOrientation landscape
+
+' Set page size to A4
+skinparam pageFormat A4
+
 skinparam class {
   FontName "Helvetica"
   FontSize 10
@@ -14,17 +20,11 @@ class User {
   + phone: string
   + address: List[Address]
   + roles: List[Role]
-  + login(): boolean
-  + logout(): void
-  + add_role(role: Role): void
-  + remove_role(role: Role): void
 }
 
 class Instructor {
   + specialty: string
   + bio: string
-  + create_course(course: Course): void
-  + assign_course(course: Course): void
 }
 
 class Address {
@@ -45,24 +45,17 @@ class Course {
   + voucher: Voucher
   + created_at: datetime
   + updated_at: datetime
-  + add_chapter(chapter: Chapter): void
-  + remove_chapter(chapter: Chapter): void
 }
 
 class Voucher {
   + code: string
   + discount: float
   + expiration_date: datetime
-  + apply_voucher(user: User): boolean
-  + is_valid(): boolean
 }
 
 class Review {
   + comment: string
   + rating: int
-  + approve_review(): void
-  + reject_review(): void
-  + check_enrolled_user(user: User): boolean
 }
 
 class Lesson {
@@ -70,16 +63,12 @@ class Lesson {
   + content: string
   + reviews: List[Review]
   + exercises: List[Exercise]
-  + add_exercise(exercise: Exercise): void
-  + update_content(content: string): void
 }
 
 class Chapter {
   + name: string
   + content: string
   + lessons: List[Lesson]
-  + add_lesson(lesson: Lesson): void
-  + remove_lesson(lesson: Lesson): void
 }
 
 class UserEnrollment {
@@ -88,20 +77,17 @@ class UserEnrollment {
   + status: string
   + created_at: datetime
   + updated_at: datetime
-  + enroll_user(user: User): void
-  + cancel_enrollment(user: User): void
+  + expiration_date: datetime
 }
 
 class Exercise {
   + level: string
   + content: string
-  + update_content(content: string): void
 }
 
 class Submission {
   + code: string
   + grade: float
-  + grade_submission(grade: float): void
 }
 
 class Role {
@@ -110,9 +96,8 @@ class Role {
 
 class UserSubmission {
   + user: User
-  + submission: Submission
+  + submission: List[Submission]
   + exercise: Exercise
-  + submit_assignment(submission: Submission): void
 }
 
 class Category {
@@ -127,16 +112,12 @@ class Payment {
   + user: User
   + created_at: datetime
   + updated_at: datetime
-  + process_payment(): void
-  + refund(): void
 }
 
 class Notification {
   + message: string
   + date_sent: datetime
   + user: User
-  + send(): void
-  + schedule(): void
 }
 
 class Subscription {
@@ -145,19 +126,25 @@ class Subscription {
   + user: User
   + courses: List[Course]
   + status: string
-  + renew_subscription(): void
-  + cancel_subscription(): void
+}
+
+class TrackingLesson {
+  + user: User
+  + lesson: Lesson
+  + status: string
+  + created_at: datetime
+  + updated_at: datetime
 }
 
 User <|-- Instructor : inherits
-User "1" *--> "N" UserEnrollment : enrolled_by
+UserEnrollment "1" *--> "N" User : enrolled_by
 User "1" *--> "N" Notification : sent_to
 User "1" *--> "N" Subscription : subscribed_by
 User "N" o--> "1" Address : associated_with
 User "N" *--> "N" Role : has_roles
 User "1" *--> "N" Payment : made_payments
 
-Course "1" *--> "N" UserEnrollment : has_enrolled_users
+UserEnrollment "1" *--> "N" Course : has_enrolled_users
 Course "N" *--> "1" Chapter : part_of
 Course "N" o--> "N" Category : categorized_as
 Course "1" o--> "1" Voucher : applied_to
@@ -168,5 +155,8 @@ Lesson "N" o--> "1" Review : associated_with
 
 UserSubmission "N" o--> "1" Exercise : related_to
 UserSubmission "N" o--> "1" Submission : related_to
+
+TrackingLesson "N" o--> "1" Lesson : related_to
+TrackingLesson "N" o--> "1" User : related_to
 
 @enduml

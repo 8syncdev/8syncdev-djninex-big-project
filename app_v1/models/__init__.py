@@ -112,6 +112,7 @@ class Chapter(models.Model):
 
 
 class UserEnrollment(models.Model):
+    STATUS_EXPIRED = 'expired'
     STATUS_ENROLLED = 'enrolled'
     STATUS_COMPLETED = 'completed'
     STATUS_CANCELLED = 'cancelled'
@@ -122,6 +123,7 @@ class UserEnrollment(models.Model):
         (STATUS_COMPLETED, 'Completed'),
         (STATUS_CANCELLED, 'Cancelled'),
         (STATUS_PENDING, 'Pending'),
+        (STATUS_EXPIRED, 'Expired')
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='enrollments')
@@ -164,7 +166,7 @@ class Submission(models.Model):
 
 class UserSubmission(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='submissions')
-    submission = models.ForeignKey(Submission, on_delete=models.CASCADE, related_name='user_submissions')
+    submissions = models.ManyToManyField(Submission, related_name='user_submissions')
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE, related_name='user_submissions')
 
     def __str__(self):

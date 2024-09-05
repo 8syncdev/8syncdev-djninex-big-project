@@ -17,16 +17,16 @@ class ChaptersOfCourseOutputSchema(ModelSchema):
     class Meta:
         model = Chapter
         fields = (
-            'name',
             'id',
+            'name',
         )
 
 class LessonsOfChapterOutputSchema(ModelSchema):
     class Meta:
         model = Lesson
         fields = (
-            'name',
             'id',
+            'name',
         )
 
 class LessonContentOutputSchema(ModelSchema):

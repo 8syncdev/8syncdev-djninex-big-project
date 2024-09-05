@@ -16,6 +16,7 @@ class CustomPagination(PageNumberPaginationExtra):
         page_size: int = Field(10, lt=11)
 
 
+
 def paginate_dev(
     class_pagination: PaginationBase = CustomPagination,
     _page_size: int = 10

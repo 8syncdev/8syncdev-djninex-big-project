@@ -78,8 +78,8 @@ class SubmissionAdmin(admin.ModelAdmin):
 
 @admin.register(UserSubmission)
 class UserSubmissionAdmin(admin.ModelAdmin):
-    list_display = ('user', 'submission')
-    search_fields = ('user__username', 'submission__code')
+    list_display = ('user', 'exercise')
+    search_fields = ('user__username', 'exercise__name')
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):

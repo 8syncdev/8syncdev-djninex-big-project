@@ -62,6 +62,13 @@ class CourseController:
     async def get_lessons_of_chapter(self, request, chapter_id: int):
         try:
             data = await self.course_service.get_lessons_of_chapter(chapter_id, request.user)
+            if data.__len__() == 0:
+                return ['No lessons']
+            else:
+                if data[0] == 'Expired':
+                    return data
+                elif data[0] == 'Not enrolled':
+                    return data
             return list(map(LessonsOfChapterOutputSchema.from_orm, data))
         except Exception as e:
             return res_invalid(f"Failed to get lessons, {e}")
@@ -97,7 +104,7 @@ class CourseController:
         
     @route.get(
         path='/enrollments',
-        summary='Get user enrollments',
+        summary='Get enrollments of user',
         auth=AsyncJWTAuth(),
     )
     @paginate_dev()

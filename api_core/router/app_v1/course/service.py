@@ -46,14 +46,14 @@ class CourseService:
             check_enrollment = await self.check_user_enrollment(user, find_object.pk)
             #^ Chưa check expiration_date
             if check_enrollment.status == UserEnrollment.STATUS_ENROLLED:
-                if check_enrollment.expiration_date < timezone.now():
+                if check_enrollment.expiration_date >= timezone.now():
                     print('User already enrolled in this course')
                 else:
-                    check_enrollment.status = UserEnrollment.STATUS_CANCELLED
+                    check_enrollment.status = UserEnrollment.STATUS_PENDING
                     await check_enrollment.asave()
-                    print('Expired')
+                    return ['Expired']
             else:
-                print('User not enrolled in this course')
+                return ['Not enrolled']
                 
         except Exception as e:
             print(e)
@@ -96,9 +96,12 @@ class CourseService:
         )
         return [
             {
-                'username': user_enrollment.user.username,
+                'user': user_enrollment.user.pk,
                 'course_title': user_enrollment.course.name,
                 'status': user_enrollment.status,
+                'created_at': user_enrollment.created_at,
+                'updated_at': user_enrollment.updated_at,
+                'expiration_date': user_enrollment.expiration_date
             }
             for user_enrollment in user_enrollments
         ]
