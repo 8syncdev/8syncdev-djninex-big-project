@@ -11,7 +11,6 @@ from app_v1.models import (
     Exercise,
     Submission,
     UserSubmission,
-    Category,
     Payment,
     Notification,
     Subscription
@@ -81,10 +80,6 @@ class UserSubmissionAdmin(admin.ModelAdmin):
     list_display = ('user', 'exercise')
     search_fields = ('user__username', 'exercise__name')
 
-@admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name',)
-    search_fields = ('name',)
 
 
 @admin.register(Payment)

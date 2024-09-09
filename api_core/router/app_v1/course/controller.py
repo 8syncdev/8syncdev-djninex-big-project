@@ -6,6 +6,9 @@ from .schema import (
     LessonsOfChapterOutputSchema,
     LessonContentOutputSchema,
     UserEnrollmentOutputSchema,
+    CreateOrUpdateContentJsonCourseInputSchema,
+    CreateOrUpdateContentJsonCourseOutputSchema,
+    EnrollCourseInputSchema,
 )
 
 from .service import (
@@ -36,9 +39,21 @@ class CourseController:
     async def get_all(self, request):
         try:
             data = await self.course_service.get_courses()
-            return list(map(CourseOutputSchema.from_orm, data))
+            # return list(map(CourseOutputSchema.from_orm, data))
+            return data
         except Exception as e:
             return res_invalid(f"Failed to get courses, {e}")
+        
+    @route.get(
+        path='/{course_id}',
+        summary='Get course by id',
+    )
+    async def get_course_by_id(self, request, course_id: int):
+        try:
+            data = await self.course_service.get_course_content_json_by_id(course_id)
+            return data
+        except Exception as e:
+            return res_invalid(f"Failed to get course by id, {e}")
 
     @route.get(
         path='/{course_id}/chapters',
@@ -62,13 +77,13 @@ class CourseController:
     async def get_lessons_of_chapter(self, request, chapter_id: int):
         try:
             data = await self.course_service.get_lessons_of_chapter(chapter_id, request.user)
-            if data.__len__() == 0:
-                return ['No lessons']
-            else:
-                if data[0] == 'Expired':
-                    return data
-                elif data[0] == 'Not enrolled':
-                    return data
+            # if data.__len__() == 0:
+            #     return ['No lessons']
+            # else:
+            #     if data[0] == 'Expired':
+            #         return data
+            #     elif data[0] == 'Not enrolled':
+            #         return data
             return list(map(LessonsOfChapterOutputSchema.from_orm, data))
         except Exception as e:
             return res_invalid(f"Failed to get lessons, {e}")
@@ -79,25 +94,31 @@ class CourseController:
         auth=AsyncJWTAuth(),
         permissions=[IsAuthenticated]
     )
-    async def get_lesson_content(self, request, lesson_id: int):
+    async def get_lesson_content(self, request: Request, lesson_id: int):
         try:
-            data = await self.course_service.get_lesson_content(lesson_id)
+            data = await self.course_service.get_lesson_content(lesson_id, request.user)
             return res_valid(LessonContentOutputSchema.from_orm(data))
         except Exception as e:
             return res_invalid(f"Failed to get lesson content, {e}")
         
     @route.post(
-        path='/enroll',
+        path='/enrollments',
         summary='Enroll a course',
         auth=AsyncJWTAuth(),
         permissions=[IsAuthenticated]
     )
-    async def enroll_course(self, request: Request, course_id: int, status: str = UserEnrollment.STATUS_ENROLLED):
+    async def enroll_course(self, request: Request, data: EnrollCourseInputSchema):
         try:
             if request.user.is_superuser:
-                data = await self.course_service.enroll_course(request.user, course_id, status)
+                data = await self.course_service.enroll_course(request.user, **data.__dict__)
             else:
-                data = await self.course_service.enroll_course(request.user, course_id)
+                params = {
+                    'user': request.user,
+                    'course_id': data.course_id,
+                    'status': UserEnrollment.STATUS_ENROLLED,
+                    'is_trial': data.is_trial
+                }
+                data = await self.course_service.enroll_course(**params)
             return res_valid(UserEnrollmentOutputSchema.from_orm(data))
         except Exception as e:
             return res_invalid(f"Failed to enroll course, {e}")
@@ -142,5 +163,18 @@ class CourseController:
             return res_valid(data)
         except Exception as e:
             return res_invalid(f"Failed to delete all user enrollments, {e}")
+        
+    @route.post(
+        path='/content-json',
+        summary='Create or update content json for a course',
+        # auth=AsyncJWTAuth(),
+        # permissions=[IsAdminUser]
+    )
+    async def create_or_update_content_json_course(self, request: Request, data: CreateOrUpdateContentJsonCourseInputSchema):
+        try:
+            data = await self.course_service.create_or_update_content_json_course(**data.__dict__)
+            return res_valid(CreateOrUpdateContentJsonCourseOutputSchema.from_orm(data))
+        except Exception as e:
+            return res_invalid(f"Failed to create or update content json for a course, {e}")
     
 

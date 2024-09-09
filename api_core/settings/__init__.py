@@ -83,11 +83,23 @@ WSGI_APPLICATION = 'api_core.deployment.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
+LIST_DATABASE = [
+    {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'djex-next',
+        'USER': 'postgres',
+        'PASSWORD': 'anhtudev2003',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    },
+    {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+]
+
+DATABASES = {
+    'default': LIST_DATABASE[0]
 }
 DEFAULT_CHARSET = 'utf-8'
 

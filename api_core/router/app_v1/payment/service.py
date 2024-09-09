@@ -10,6 +10,7 @@ from api_core.dev import (
 
 from .model import *
 
+from django.utils.timezone import timedelta, now
 
 class PaymentService:
 
@@ -23,19 +24,23 @@ class PaymentService:
         return payments
     
     async def get_all_payments_by_user(self, user_id: int=None, user: User = None):
-        if user:
-            payments = await afilter(
-                func=self.payment_model.objects.select_related('user').filter,
-                user=user
-            )
-        if user_id:
+        if user_id is None and user is None:
+            return []
+        if user_id is not None:
+            print(user_id)
             payments = await afilter(
                 func=self.payment_model.objects.select_related('user').filter,
                 user__pk=user_id
             )
+        elif user is not None:
+            print(user)
+            payments = await afilter(
+                func=self.payment_model.objects.select_related('user').filter,
+                user=user
+            )
         return payments
     
-    async def create_payment_by_user_id(self, user_id: int = None, user: User = None):
+    async def create_payment_by_user(self, user_id: int = None, user: User = None):
         if user_id is None and user is None:
             return {
                 'user_id': user_id,
@@ -48,13 +53,13 @@ class PaymentService:
             get_all_user_enrollment_enrolled = await afilter(
                 func=self.user_enrollment_model.objects.select_related('user', 'course').filter,
                 user__pk=user_id,
-                status=UserEnrollment.STATUS_ENROLLED
+                status__in=[UserEnrollment.STATUS_ENROLLED, UserEnrollment.STATUS_TRIAL, UserEnrollment.STATUS_EXPIRED] # TODO: kết thúc trial để thanh toán
             )
         elif user is not None:
             get_all_user_enrollment_enrolled = await afilter(
                 func=self.user_enrollment_model.objects.select_related('user', 'course').filter,
                 user=user,
-                status=UserEnrollment.STATUS_ENROLLED
+                status__in=[UserEnrollment.STATUS_ENROLLED, UserEnrollment.STATUS_TRIAL, UserEnrollment.STATUS_EXPIRED]
             )
         if get_all_user_enrollment_enrolled.__len__() == 0:
             return {
@@ -75,9 +80,11 @@ class PaymentService:
             status=Payment.STATUS_PENDING,
             message=[
                 {
-                    'course_no': user_enrollment.course.pk,
+                    'course': user_enrollment.course.pk,
+                    'user_enrollment': user_enrollment.pk,
                     'course_name': user_enrollment.course.name,
-                    'price': user_enrollment.course.price
+                    'course_img_url': user_enrollment.course.img_url,
+                    'price': user_enrollment.course.price,
                 }
                 for user_enrollment in get_all_user_enrollment_enrolled
             ]
@@ -105,9 +112,44 @@ class PaymentService:
             'message': 'Delete all payments success'
         }
     
-    async def done_payment(self, payment_id: int):
-        payment = await self.payment_model.objects.aget(pk=payment_id)
+    async def done_payment(self, user_id: int = None, user: User = None, payment_id: int = None):
+        if payment_id is not None:
+            payment = await self.payment_model.objects.select_related('user').aget(
+                pk=payment_id
+            )
+            payments = [payment]
+        elif user_id is not None:
+            payments = await afilter(
+                func=self.payment_model.objects.select_related('user').filter,
+                user__pk=user_id,
+                status=Payment.STATUS_PENDING
+            )
+        elif user is not None:
+            payments = await afilter(
+                func=self.payment_model.objects.select_related('user').filter,
+                user=user,
+                status=Payment.STATUS_PENDING
+            )
+        
+        if payments.__len__() == 0:
+            return {
+                'message': 'Payment not found'
+            }
+
+        for payment in payments:
+            for message in payment.message:
+                user_enrollment = await self.user_enrollment_model.objects.select_related('user', 'course').aget(
+                    pk=message.get('user_enrollment')
+                )
+                user_enrollment.status = UserEnrollment.STATUS_COMPLETED
+                user_enrollment.expiration_date = now() + timedelta(days=UserEnrollment.EXPIRATION_DAYS)
+                await user_enrollment.asave()
+
         payment.status = Payment.STATUS_COMPLETED
         await payment.asave()
-        return payment
 
+        return {
+            'message': 'Done payment success'
+        }
+
+    

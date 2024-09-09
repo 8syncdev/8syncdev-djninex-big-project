@@ -138,6 +138,46 @@ def gen_chapter_lesson(path_name: str, list_dir: list[str]) -> list[dict]:
     
     return data_chapter, data_lesson
 
+def gen_chapter_lesson_json(path_name: str, list_dir: list[str]) -> list[dict]:
+    """
+    Processes the directories and files, extracting information and structuring it.
+    
+    Parameters:
+    - path_name: str - Base path to the directories
+    - list_dir: list[str] - List of directories to process
+    
+    Returns:
+    - list[dict] - Processed data in structured form
+    """
+    data_chapter = []
+    data_lesson = []
+    cntl, cntdl = 1, 1
+
+    for directory in list_dir:
+        list_in_dir = get_sorted_directory_list(path_name + directory)
+        info = {
+            'chapter_id': cntl,
+            'chapter_name': directory,
+            'lessons': []
+        }
+        for file_in_dir in list_in_dir:
+            file_path = f"{path_name}{directory}/{file_in_dir}"
+            file_content = read_file(file_path)
+            inner_info = {
+                'lesson_id': cntdl,
+                'lesson_name': file_content[0].strip().replace("# ", "") if file_content else "No title",
+                'content_type': ['md'],
+            }
+            info['lessons'].append(inner_info)
+            cntdl += 1
+            data_lesson.append(inner_info)
+        
+        cntl += 1
+        # cntdl = 0
+        data_chapter.append(info)
+    
+    return data_chapter, data_lesson
+
 
 
 def main(path_name: str):
@@ -150,10 +190,10 @@ def main(path_name: str):
     list_dir = get_sorted_directory_list(path_name)
     print(list_dir)
     
-    data = gen_chapter_lesson(path_name, list_dir)
+    data = gen_chapter_lesson_json(path_name, list_dir)
 
-    write_file('./export/chapter.json', data[0])
-    write_file('./export/lesson.json', data[1])
+    write_file('./test/chapter.json', data[0])
+    write_file('./test/lesson.json', data[1])
 
 if __name__ == "__main__":
-    main('./data/python/')
+    main('./data-md/python/')

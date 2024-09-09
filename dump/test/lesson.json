@@ -1,0 +1,800 @@
+[
+    {
+        "lesson_id": 1,
+        "lesson_name": "Bài 00. Hướng dẫn Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 2,
+        "lesson_name": "Bài 01. Python - Tổng quan",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 3,
+        "lesson_name": "Bài 02. Python - Lịch sử",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 4,
+        "lesson_name": "Bài 03. Python - Các Đặc Điểm và Ưu Điểm",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 5,
+        "lesson_name": "Bài 04. Python - Chương Trình Hello World",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 6,
+        "lesson_name": "Bài 05.Python - Các Lĩnh Vực Ứng Dụng",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 7,
+        "lesson_name": "Bài 06. Python - Trình Diễn và Các Chế Độ Hoạt Động",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 8,
+        "lesson_name": "Bài 07. Python - Thiết Lập Môi Trường",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 9,
+        "lesson_name": "Bài 08. Python - Môi Trường Ảo",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 10,
+        "lesson_name": "Bài 09. Python - Hướng dẫn về Cú Pháp",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 11,
+        "lesson_name": "Bài 10. Biến trong Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 12,
+        "lesson_name": "Bài 11. Tài liệu Hướng dẫn về Các Loại Dữ Liệu và Ép Kiểu trong Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 13,
+        "lesson_name": "Bài 12. Hướng dẫn Ép Kiểu trong Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 14,
+        "lesson_name": "Bài 13. Hệ thống Unicode trong Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 15,
+        "lesson_name": "Bài 14. Python - Các Kiểu Chữ Số",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 16,
+        "lesson_name": "Bài 15. Python - Các Toán Tử",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 17,
+        "lesson_name": "Bài 16. Python - Các Toán Tử Số Học",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 18,
+        "lesson_name": "Bài 17. Python - Toán tử So sánh",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 19,
+        "lesson_name": "Bài 18. Hướng dẫn sử dụng Toán tử Gán trong Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 20,
+        "lesson_name": "Bài 19. Toán Tử Logic trong Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 21,
+        "lesson_name": "Bài 20. Python - Toán Tử Bitwise",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 22,
+        "lesson_name": "Bài 21. Toán tử thành viên trong Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 23,
+        "lesson_name": "Bài 22. Python - Toán Tử Nhận Dạng",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 24,
+        "lesson_name": "Bài 23. Python - Ưu Tiên Toán Tử",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 25,
+        "lesson_name": "Bài 24. Python - Chú thích",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 26,
+        "lesson_name": "Bài 25. Python - Nhập Dữ liệu từ Người Dùng",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 27,
+        "lesson_name": "Bài 26. Python - Số",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 28,
+        "lesson_name": "Bài 27. Python - Booleans",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 29,
+        "lesson_name": "Bài 0. Python - Luồng điều khiển",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 30,
+        "lesson_name": "Bài 1. Python - Ra Quyết Định",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 31,
+        "lesson_name": "Bài 2. Python - Mệnh đề if",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 32,
+        "lesson_name": "Bài 3. Hướng dẫn Sử dụng Câu lệnh if-else trong Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 33,
+        "lesson_name": "Bài 4. Hướng dẫn Sử dụng Câu lệnh if Lồng nhau trong Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 34,
+        "lesson_name": "Bài 5. Python - Câu lệnh Match-Case",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 35,
+        "lesson_name": "Bài 6. Python - Vòng lặp",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 36,
+        "lesson_name": "Bài 7. Python - Vòng lặp For",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 37,
+        "lesson_name": "Bài 8. Python - Vòng lặp For Else",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 38,
+        "lesson_name": "Bài 9. Python - Vòng lặp While",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 39,
+        "lesson_name": "Bài 10.1. Python break Statement",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 40,
+        "lesson_name": "Bài 10.2. Python continue Statement",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 41,
+        "lesson_name": "Bài 11. Python pass Statement",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 42,
+        "lesson_name": "Bài 12. Python Nested Loops",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 43,
+        "lesson_name": "Bài 0. Hàm trong Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 44,
+        "lesson_name": "Bài 1. Python - Tham số Mặc định",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 45,
+        "lesson_name": "Bài 2. Python - Tham số từ khóa",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 46,
+        "lesson_name": "Bài 3. Python - Tham số chỉ từ khóa",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 47,
+        "lesson_name": "Bài 4. Python - Đối số theo Vị trí",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 48,
+        "lesson_name": "Bài 5. Python - Đối số Tùy ý",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 49,
+        "lesson_name": "Bài 6. Python - Phạm vi Biến",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 50,
+        "lesson_name": "Bài 7. Python - Chú thích Hàm",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 51,
+        "lesson_name": "Bài 8. Python - Module (Module Python)",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 52,
+        "lesson_name": "Bài 9. Hàm Built-in Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 53,
+        "lesson_name": "Bài 0. Pyton - Chuỗi trong Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 54,
+        "lesson_name": "Bài 1. Python - Slicing Chuỗi trong Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 55,
+        "lesson_name": "Bài 2. Sửa Đổi Chuỗi trong Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 56,
+        "lesson_name": "Bài 3. Python - Ghép Chuỗi trong Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 57,
+        "lesson_name": "Bài 4. Python - Định Dạng Chuỗi trong Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 58,
+        "lesson_name": "Bài 5. Python - Ký Tự Escape Trong Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 59,
+        "lesson_name": "Bài 6. Python - Phương Thức Chuỗi trong Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 60,
+        "lesson_name": "Bài 7. Python - Bài Tập Chuỗi",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 61,
+        "lesson_name": "Bài 0. Python - Danh Sách (Lists)",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 62,
+        "lesson_name": "Bài 1. Python - Truy Cập Các Phần Tử trong Danh Sách",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 63,
+        "lesson_name": "Bài 2. Python - Thay Đổi Các Phần Tử trong Danh Sách",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 64,
+        "lesson_name": "Bài 3. Python - Thêm Phần Tử vào Danh Sách",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 65,
+        "lesson_name": "Bài 4. Python - Xóa Phần Tử trong Danh Sách",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 66,
+        "lesson_name": "Bài 5. Python - Lặp Qua Danh Sách",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 67,
+        "lesson_name": "Bài 6. Python - List Comprehension",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 68,
+        "lesson_name": "Bài 7. Python - Sắp xếp Danh sách",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 69,
+        "lesson_name": "Bài 8. Python - Sao chép Danh sách",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 70,
+        "lesson_name": "Bài 9. Python - Kết hợp Danh sách",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 71,
+        "lesson_name": "Bài 10. Python - Phương thức của Danh sách",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 72,
+        "lesson_name": "Bài 0. Python - Tuple (Bộ)",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 73,
+        "lesson_name": "Bài 1. Python - Truy cập các mục Tuple",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 74,
+        "lesson_name": "Bài 2. Python - Cập nhật Tuple",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 75,
+        "lesson_name": "Bài 3. Python - Giải nén các phần tử của Tuple",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 76,
+        "lesson_name": "Bài 4. Python - Lặp Qua Các Phần Tử của Tuple trong Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 77,
+        "lesson_name": "Bài 5. Python - Gộp Tuple",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 78,
+        "lesson_name": "Bài 6. Python - Phương thức Tuple",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 79,
+        "lesson_name": "Bài 0. Python - Tập hợp (Sets)",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 80,
+        "lesson_name": "Bài 1. Python - Truy cập Các Phần Tử trong Tập Hợp",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 81,
+        "lesson_name": "Bài 2. Python - Thêm Các Phần Tử vào Tập Hợp",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 82,
+        "lesson_name": "Bài 3. Python - Xóa Các Phần Tử của Tập Hợp",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 83,
+        "lesson_name": "Bài 4. Python - Lặp Qua Tập Hợp",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 84,
+        "lesson_name": "Bài 5. Python - Kết Hợp Các Tập Hợp",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 85,
+        "lesson_name": "Bài 6. Python - Sao Chép Tập Hợp",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 86,
+        "lesson_name": "Bài 7. Python - Toán Tử Tập Hợp",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 87,
+        "lesson_name": "Bài 8. Python - Các Phương Thức của Tập Hợp",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 88,
+        "lesson_name": "Bài 0. Python - Từ Điển (Dictionaries)",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 89,
+        "lesson_name": "Bài 1. Python - Truy Cập Các Mục của Từ Điển",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 90,
+        "lesson_name": "Bài 2. Python - Thay Đổi Các Mục của Từ Điển",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 91,
+        "lesson_name": "Bài 3. Python - Thêm Mục vào Từ Điển",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 92,
+        "lesson_name": "Bài 4. Python - Xóa các Phần Tử trong Từ Điển Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 93,
+        "lesson_name": "Bài 5. Python - Đối Tượng Xem Từ Điển trong Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 94,
+        "lesson_name": "Bài 6. Python - Sao Chép Từ Điển trong Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 95,
+        "lesson_name": "Bài 7. Python - Từ Điển Lồng Nhau trong Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 96,
+        "lesson_name": "Bài 8. Python - Các Phương Thức của Từ Điển trong Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 97,
+        "lesson_name": "Bài 00. Python - Mảng",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 98,
+        "lesson_name": "Bài 01. Python - Truy Cập Phần Tử của Mảng",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 99,
+        "lesson_name": "Bài 02. Python - Thêm Phần Tử vào Mảng",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 100,
+        "lesson_name": "Bài 03. Python - Xóa Phần Tử khỏi Mảng",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 101,
+        "lesson_name": "Bài 04. Python - Lặp qua Mảng",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 102,
+        "lesson_name": "Bài 05. Python - Sao Chép Mảng",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 103,
+        "lesson_name": "Hướng Dẫn Đảo Ngược Mảng trong Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 104,
+        "lesson_name": "Bài 07. Python - Sắp Xếp Mảng",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 105,
+        "lesson_name": "Bài 08. Python - Gộp Mảng",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 106,
+        "lesson_name": "Bài 09. Python - Phương Thức Mảng",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 107,
+        "lesson_name": "Bài 10. Bài Tập Về Mảng trong Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 108,
+        "lesson_name": "Bài 00. Python - Xử Lý Tệp Trong Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 109,
+        "lesson_name": "Bài 01. Python-  Ghi vào Tệp Trong Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 110,
+        "lesson_name": "Bài 02. Python - Đọc Tệp Trong Python",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 111,
+        "lesson_name": "Bài 03. Python - Đổi Tên và Xóa Tệp Tin",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 112,
+        "lesson_name": "Bài 04. Python - Thư mục",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 113,
+        "lesson_name": "Bài 05. Python - Các Phương Thức File",
+        "content_type": [
+            "md"
+        ]
+    },
+    {
+        "lesson_id": 114,
+        "lesson_name": "Bài 06. Python OS - Các Phương Thức File/Thư Mục",
+        "content_type": [
+            "md"
+        ]
+    }
+]

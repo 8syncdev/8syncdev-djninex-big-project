@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 
@@ -48,9 +49,11 @@ class Course(models.Model):
     img_url = models.URLField(blank=True)
     price = models.FloatField()
     description = models.TextField(null=True, blank=True)
+    content_json = models.JSONField(null=True, blank=True)
+    duration = models.FloatField(null=True, blank=True)
 
     author = models.ForeignKey(Instructor, on_delete=models.CASCADE, related_name='courses')
-    categories = models.ManyToManyField('Category', blank=True, related_name='courses')
+    categories = ArrayField(models.CharField(max_length=100), blank=True, null=True)
     chapters = models.ManyToManyField('Chapter', blank=True, related_name='courses')
     voucher = models.OneToOneField('Voucher', null=True, blank=True, on_delete=models.SET_NULL, related_name='course')
     created_at = models.DateTimeField(default=timezone.now)
@@ -112,15 +115,21 @@ class Chapter(models.Model):
 
 
 class UserEnrollment(models.Model):
+    EXPIRATION_DAYS = 30
+    EXPIRATION_DAYS_TRIAL = 7
+    EXPIRATION_TEST_MINUTES = 4
+
     STATUS_EXPIRED = 'expired'
-    STATUS_ENROLLED = 'enrolled'
-    STATUS_COMPLETED = 'completed'
     STATUS_CANCELLED = 'cancelled'
+    STATUS_ENROLLED = 'enrolled'
     STATUS_PENDING = 'pending'
+    STATUS_COMPLETED = 'completed'
+    STATUS_TRIAL = 'trial'
 
     ENROLLMENT_STATUS_CHOICES = [
         (STATUS_ENROLLED, 'Enrolled'),
         (STATUS_COMPLETED, 'Completed'),
+        (STATUS_TRIAL, 'Trial'),
         (STATUS_CANCELLED, 'Cancelled'),
         (STATUS_PENDING, 'Pending'),
         (STATUS_EXPIRED, 'Expired')
@@ -131,7 +140,7 @@ class UserEnrollment(models.Model):
     status = models.CharField(max_length=50, choices=ENROLLMENT_STATUS_CHOICES, default=STATUS_PENDING)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
-    expiration_date = models.DateTimeField(default=timezone.now() + timezone.timedelta(minutes=10))
+    expiration_date = models.DateTimeField(default=timezone.now() + timezone.timedelta(days=EXPIRATION_DAYS_TRIAL))
 
 
     class Meta:
@@ -173,11 +182,17 @@ class UserSubmission(models.Model):
         return f"Submission by {self.user.username} for {self.exercise.name}"
 
 
-class Category(models.Model):
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
+class CategoryChoice(models.TextChoices):
+    PYTHON = 'python', 'Python'
+    WEB_FRAMEWORKS = 'web_frameworks', 'Web Frameworks'
+    FRONTEND = 'frontend', 'Frontend'
+    BACKEND = 'backend', 'Backend'
+    PROGRAMMING_LANGUAGES = 'programming_languages', 'Programming Languages'
+    DATABASE = 'database', 'Database'
+    SOFTWARE_ENGINEERING = 'software_engineering', 'Software Engineering'
+    DEVOPS = 'devops', 'DevOps'
+    MOBILE_DEVELOPMENT = 'mobile_development', 'Mobile Development'
+    TESTING = 'testing', 'Testing'
 
 
 class Payment(models.Model):

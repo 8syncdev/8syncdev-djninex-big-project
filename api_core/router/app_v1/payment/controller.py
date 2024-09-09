@@ -42,15 +42,17 @@ class PaymentController:
         summary='Get all payments by user',
         auth=AsyncJWTAuth(),
     )
-    async def get_all_payments_by_user(self, request: Request, user_id: int = 1):
+    @paginate_dev()
+    async def get_all_payments_by_user(self, request: Request, user_id: Optional[int] = None):
         try:
             params = {
                 'user_id': user_id,
+                'user': request.user,
             } if request.user.is_superuser else {
                 'user': request.user,
             }
             data = await self.payment_service.get_all_payments_by_user(**params)
-            return res_valid([PaymentOutputSchema.from_orm(payment) for payment in data])
+            return [PaymentOutputSchema.from_orm(payment) for payment in data]
         except Exception as e:
             return res_invalid(f'Get all payments by user failed: {e}')
         
@@ -64,10 +66,11 @@ class PaymentController:
         try:
             params = {
                 'user_id': user_id,
+                'user': request.user,
             } if request.user.is_superuser else {
                 'user': request.user,
             }
-            data = await self.payment_service.create_payment_by_user_id(**params)
+            data = await self.payment_service.create_payment_by_user(**params)
             return data
         except Exception as e:
             return res_invalid(f'Create payment by user failed: {e}')
@@ -96,5 +99,24 @@ class PaymentController:
             return res_valid(data)
         except Exception as e:
             return res_invalid(f'Delete all payments failed: {e}')
+        
+    @route.post(
+        path='/done',
+        summary='Done payment by user',
+        auth=AsyncJWTAuth(),
+        permissions=[IsAuthenticated, IsAdminUser]
+    )
+    async def done_payment(self, request: Request, user_id: Optional[int] = None, payment_id: Optional[int] = None):
+        try:
+            params = {
+                'user_id': user_id,
+                'payment_id': payment_id,
+                'user': request.user,
+            }
+            data = await self.payment_service.done_payment(**params)
+            return data
+        except Exception as e:
+            return res_invalid(f'Done payment failed: {e}')
+        
         
     
