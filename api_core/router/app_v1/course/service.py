@@ -66,12 +66,24 @@ class CourseService:
     async def check_user_enrolled_course(self, user: User, course_id: int) -> bool:
         user_enrollment = await self.get_user_enrollment_of_course(user, course_id)
         if user_enrollment.status in [UserEnrollment.STATUS_COMPLETED, UserEnrollment.STATUS_TRIAL]:
-            if user_enrollment.expiration_date >= timezone.now():
-                return True
-            else:
-                user_enrollment.status = UserEnrollment.STATUS_EXPIRED
-                await user_enrollment.asave()
-                return False
+            if user_enrollment.status == UserEnrollment.STATUS_TRIAL:
+                if user_enrollment.expiration_date >= timezone.now():
+                    return True
+                else:
+                    user_enrollment.status = UserEnrollment.STATUS_EXPIRED
+                    await user_enrollment.asave()
+                    return False
+            
+            if user_enrollment.status == UserEnrollment.STATUS_COMPLETED:
+                if user_enrollment.is_check_expiration:
+                    if user_enrollment.expiration_date >= timezone.now():
+                        return True
+                    else:
+                        user_enrollment.status = UserEnrollment.STATUS_EXPIRED
+                        await user_enrollment.asave()
+                        return False
+                else:
+                    return True
         else:
             return False
 

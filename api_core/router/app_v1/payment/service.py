@@ -142,7 +142,7 @@ class PaymentService:
                     pk=message.get('user_enrollment')
                 )
                 user_enrollment.status = UserEnrollment.STATUS_COMPLETED
-                user_enrollment.expiration_date = now() + timedelta(days=UserEnrollment.EXPIRATION_DAYS)
+                # user_enrollment.expiration_date = now() + timedelta(days=UserEnrollment.EXPIRATION_DAYS)
                 await user_enrollment.asave()
 
         payment.status = Payment.STATUS_COMPLETED

@@ -102,21 +102,21 @@ class CourseController:
             return res_invalid(f"Failed to get lesson content, {e}")
         
     @route.post(
-        path='/enrollments',
+        path='/enrollments/enroll',
         summary='Enroll a course',
         auth=AsyncJWTAuth(),
         permissions=[IsAuthenticated]
     )
-    async def enroll_course(self, request: Request, data: EnrollCourseInputSchema):
+    async def enroll_course(self, request: Request, data_input: EnrollCourseInputSchema):
         try:
             if request.user.is_superuser:
-                data = await self.course_service.enroll_course(request.user, **data.__dict__)
+                data = await self.course_service.enroll_course(request.user, **data_input.__dict__)
             else:
                 params = {
                     'user': request.user,
-                    'course_id': data.course_id,
+                    'course_id': data_input.course_id,
                     'status': UserEnrollment.STATUS_ENROLLED,
-                    'is_trial': data.is_trial
+                    'is_trial': data_input.is_trial
                 }
                 data = await self.course_service.enroll_course(**params)
             return res_valid(UserEnrollmentOutputSchema.from_orm(data))
@@ -124,9 +124,10 @@ class CourseController:
             return res_invalid(f"Failed to enroll course, {e}")
         
     @route.get(
-        path='/enrollments',
+        path='/enrollments/user',
         summary='Get enrollments of user',
         auth=AsyncJWTAuth(),
+        permissions=[IsAuthenticated]
     )
     @paginate_dev()
     async def get_user_enrollments(self, request):

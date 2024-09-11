@@ -117,7 +117,7 @@ class Chapter(models.Model):
 class UserEnrollment(models.Model):
     EXPIRATION_DAYS = 30
     EXPIRATION_DAYS_TRIAL = 7
-    EXPIRATION_TEST_MINUTES = 4
+    EXPIRATION_TEST_MINUTES = 2
 
     STATUS_EXPIRED = 'expired'
     STATUS_CANCELLED = 'cancelled'
@@ -135,13 +135,14 @@ class UserEnrollment(models.Model):
         (STATUS_EXPIRED, 'Expired')
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='enrollments')
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='enrollments')
     status = models.CharField(max_length=50, choices=ENROLLMENT_STATUS_CHOICES, default=STATUS_PENDING)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
-    expiration_date = models.DateTimeField(default=timezone.now() + timezone.timedelta(days=EXPIRATION_DAYS_TRIAL))
+    expiration_date = models.DateTimeField(default=timezone.now() + timezone.timedelta(minutes=EXPIRATION_TEST_MINUTES))
+    is_check_expiration = models.BooleanField(default=False)
 
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='enrollments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='enrollments')
 
     class Meta:
         indexes = [
