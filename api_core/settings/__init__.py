@@ -27,7 +27,10 @@ from api_core import (
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-ALLOWED_HOSTS = []
+if DEBUG:
+    ALLOWED_HOSTS = ['*']
+else:
+    ALLOWED_HOSTS = ['*.vercel.app', '.vercel.app','.onrender.com', '*.onrender.com', "*"]
 
 
 # Application definition
