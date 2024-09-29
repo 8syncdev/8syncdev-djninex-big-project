@@ -14,3 +14,6 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'api_core.settings')
 
 application = get_wsgi_application()
+
+#* This file is used to help run the Django app on a production server.
+app = application
