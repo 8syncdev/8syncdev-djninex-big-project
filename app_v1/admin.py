@@ -52,8 +52,9 @@ class ReviewAdmin(admin.ModelAdmin):
 
 @admin.register(Lesson)
 class LessonAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('pk', 'name')
     search_fields = ('name',)
+    ordering = ('pk',)
 
 @admin.register(Chapter)
 class ChapterAdmin(admin.ModelAdmin):

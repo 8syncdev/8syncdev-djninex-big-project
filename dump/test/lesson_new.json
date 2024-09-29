@@ -1,0 +1,13 @@
+[
+    {
+        "model": "app_v1.lesson",
+        "pk": 1,
+        "fields": {
+            "name": "Bài 00. Hướng dẫn Python",
+            "content": "# Bài 00. Hướng dẫn Python\n\n## Giới thiệu\n\nChào mừng bạn đến với khóa học Python! Trong bài học này, chúng ta sẽ tìm hiểu về cách sử dụng khóa học và các tài nguyên có sẵn.\n\n## Nội dung\n\n1. Cách sử dụng nền tảng học tập\n2. Cấu trúc của khóa học\n3. Tài liệu và tài nguyên bổ sung\n4. Cách đặt câu hỏi và nhận hỗ trợ\n\n## Video hướng dẫn\n\nBạn có thể xem video hướng dẫn chi tiết tại đây: [Hướng dẫn Python](https://youtu.be/1OXKuM_mURc)\n\n## Kết luận\n\nChúc bạn học tập hiệu quả và thành công trong khóa học Python này!",
+            "url_video": "https://youtu.be/1OXKuM_mURc",
+            "reviews": [],
+            "exercises": []
+        }
+    }
+]

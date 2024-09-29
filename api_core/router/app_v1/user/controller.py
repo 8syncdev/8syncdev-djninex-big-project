@@ -14,7 +14,7 @@ from .service import (
 
 
 @api_controller(
-    prefix_or_class='/user',
+    prefix_or_class='/users',
     tags=['Client User API'],
 )
 class ClientUserController:
@@ -37,14 +37,14 @@ class ClientUserController:
     )
     async def create(self, request, user: ClientUserInputSchema):
         '''
-        # Docs English:
-        ## Create a new user
-
-        Parameter:
-        - user: ClientUserInputSchema
-
-        Return:
-        - ClientUserOutputSchema
+        Test data format:
+        ```json
+        {
+            "username": "user100",
+            "phone": "11111111",
+            "password": "123"
+        }
+        ```
         '''
         try:
             data = await self.user_service.create(user)
@@ -52,8 +52,8 @@ class ClientUserController:
         except Exception as e:
             return res_invalid(f"Failed to create user, {e}")
     
-    @route.post(
-        path='/edit', 
+    @route.patch(
+        path='/me', 
         summary='Edit information of current user',
         response=Union[
             ClientUserOutputSchema,
@@ -71,7 +71,7 @@ class ClientUserController:
     
 
 @api_controller(
-    prefix_or_class='/admin',
+    prefix_or_class='/admin/users',
     tags=['Admin User API'],
     permissions=[IsAdminUser],
     auth=AsyncJWTAuth(),
@@ -83,7 +83,7 @@ class AdminUserController:
         self.user_service = user_service
 
     @route.post(
-        path='/user',
+        path='',
         summary='Create a new user',
     )
     async def create(self, request, user: ClientUserInputSchema):
@@ -103,9 +103,9 @@ class AdminUserController:
         except Exception as e:
             return res_invalid(f"Failed to create user, {e}")
             
-    @route.post(
-        path='/user/edit', 
-        summary='Edit information of current user',
+    @route.patch(
+        path='/{user_id}', 
+        summary='Edit information of a user',
         response=Union[
             ClientUserOutputSchema,
             Any
@@ -113,15 +113,15 @@ class AdminUserController:
         permissions=[IsAuthenticated], 
         auth=AsyncJWTAuth()
     )
-    async def update(self, request, edited_user: UpdateClientUserInputSchema):
+    async def update(self, request, user_id: int, edited_user: UpdateClientUserInputSchema):
         try:
-            data = await self.user_service.update_current_user(request.user, edited_user)
+            data = await self.user_service.update_current_user(request.user, edited_user, user_id=user_id)
             return res_valid(data)
         except Exception as e:
             return res_invalid(f"Failed to update user, {e}")
     
     @route.get(
-        path='/user',
+        path='',
         summary='Get all users',
         response=PaginatedResponseSchema,
     )

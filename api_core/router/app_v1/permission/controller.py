@@ -6,7 +6,7 @@ from .service import (
 
 
 @api_controller(
-    prefix_or_class="/permission",
+    prefix_or_class="/permissions",
     tags=["Permission"],
     auth=AsyncJWTAuth(),
     permissions=[IsAuthenticated & IsAdminUser],
@@ -17,7 +17,7 @@ class PermissionController:
                     permission_service: PermissionService):
             self.permission_service = permission_service
 
-    @route.get("/all-pers-of-users")
+    @route.get("/users")
     @paginate_dev()
     async def get_all_permissions_of_users(self, request: Request):
         try: 
@@ -26,7 +26,7 @@ class PermissionController:
         except Exception as e:
             return res_invalid(f"Failed to get all permissions of users, {e}")
     
-    @route.get("/all")
+    @route.get("")
     @paginate_dev()
     async def get_all(self, request: Request):
         try:
@@ -37,7 +37,7 @@ class PermissionController:
     
 
     @route.get(
-        path='/check-permission-by-request',
+        path='/check',
         summary='Check permission of user auto by request',
         permissions=[IsAuthenticated & UserWithPermission('app_v1.add_address')],
         auth=AsyncJWTAuth(),
@@ -50,7 +50,7 @@ class PermissionController:
             return res_invalid(f"Failed to check permission, {e}")
     
     @route.get(
-        path='/check-permission',
+        path='/verify',
         summary='Check permission of user',
     )
     async def check_permission_data(self, username: str, permission: str):
@@ -66,7 +66,7 @@ class PermissionController:
             return res_invalid(f"Failed to check permission, {e}")
         
     @route.post(
-        path='/add-permission-to-user',
+        path='/assign',
         summary='Add permission to user',
     )
     async def add_permission_to_user(self, request, username: str, permission: str):
@@ -82,7 +82,7 @@ class PermissionController:
             return res_invalid(f"Failed to add permission to user, {e}")
         
     @route.post(
-        path='/delete-permission-from-user',
+        path='/revoke',
         summary='Delete permission from user',
     )
     async def delete_permission_from_user(self, request, username: str, permission: str):

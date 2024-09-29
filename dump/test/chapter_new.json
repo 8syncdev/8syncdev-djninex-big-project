@@ -1,0 +1,13 @@
+[
+    {
+        "model": "app_v1.chapter",
+        "pk": 1,
+        "fields": {
+            "name": "1 - Cơ Bản",
+            "content": "",
+            "lessons": [
+                1
+            ]
+        }
+    }
+]

@@ -14,6 +14,10 @@ from api_core.dev import (
     sta,
 )
 
+from typing import (
+    Optional
+)
+
 
 #^ Define types
 RoleUserType = Literal['user', 'superuser', 'staff']
@@ -35,10 +39,12 @@ class UserService:
         except Exception as e:
             return (f"Failed to create user, {e}")
            
-    async def update_current_user(self, current_user: User, user: UpdateClientUserInputSchema):
+    async def update_current_user(self, current_user: User, user: UpdateClientUserInputSchema, user_id: Optional[int] = None):
         try:
-            if current_user.username != user.username:
-                return ("Username didn't match with current user")
+            # if current_user.username != user.username:
+            #     return ("Username didn't match with current user")
+            if user_id:
+                current_user = await User.objects.aget(pk=user_id)
             for key, value in user.dict().items():
                 if value == 'string':
                     continue

@@ -46,11 +46,11 @@ class CourseService:
     
     async def get_course_content_json_by_id(self, course_id: int):
         course = await self.course_model.objects.aget(pk=course_id)
-        return course.content_json
+        return course
 
     async def get_chapters_of_course(self, course_id: int):
         chapters_of_course = await afilter(
-            self.chapter_model.objects.prefetch_related('courses').filter,
+            self.chapter_model.objects.prefetch_related('courses').order_by('pk').filter,
             courses__pk=course_id
         )
         return chapters_of_course
@@ -61,11 +61,11 @@ class CourseService:
             user=user,
             course__pk=course_id
         )
-        return check_exist[0]
+        return check_exist[0] if check_exist.__len__() > 0 else None
     
     async def check_user_enrolled_course(self, user: User, course_id: int) -> bool:
         user_enrollment = await self.get_user_enrollment_of_course(user, course_id)
-        if user_enrollment.status in [UserEnrollment.STATUS_COMPLETED, UserEnrollment.STATUS_TRIAL]:
+        if user_enrollment and user_enrollment.status in [UserEnrollment.STATUS_COMPLETED, UserEnrollment.STATUS_TRIAL]:
             if user_enrollment.status == UserEnrollment.STATUS_TRIAL:
                 if user_enrollment.expiration_date >= timezone.now():
                     return True
@@ -89,28 +89,39 @@ class CourseService:
 
 
     async def get_lessons_of_chapter(self, chapter_id: int, user: User):
-        course_of_chapter = await self.chapter_model.objects.prefetch_related('courses').aget(pk=chapter_id)
-        try:
-            find = await alist_model(course_of_chapter.courses.all)
-            find_course: Course = find[0]
-            check_enrolled = await self.check_user_enrolled_course(user, find_course.pk)
-            if check_enrolled:
-                lessons_of_chapter = await afilter(
-                    self.lesson_model.objects.prefetch_related('chapters').filter,
-                    chapters__pk=chapter_id
-                )
-                return lessons_of_chapter
-            else:
-                return []
-        except Exception as e:
-            print(e)
-            return []
+        # course_of_chapter = await self.chapter_model.objects.prefetch_related('courses').aget(pk=chapter_id)
+        # try:
+        #     find = await alist_model(course_of_chapter.courses.all)
+        #     find_course: Course = find[0]
+        #     check_enrolled = await self.check_user_enrolled_course(user, find_course.pk)
+        #     if check_enrolled:
+        #         lessons_of_chapter = await afilter(
+        #             self.lesson_model.objects.prefetch_related('chapters').filter,
+        #             chapters__pk=chapter_id
+        #         )
+        #         return lessons_of_chapter
+        #     else:
+        #         return []
+        # except Exception as e:
+        #     print(e)
+        #     return []
+        lessons_of_chapter = await afilter(
+            self.lesson_model.objects.prefetch_related('chapters').order_by('pk').filter,
+            chapters__pk=chapter_id
+        )
+        return lessons_of_chapter
     
     async def get_lesson_content(self, lesson_id: int, user: User):
         lesson_content = await self.lesson_model.objects.prefetch_related('chapters').aget(pk=lesson_id)
+        if lesson_content.is_trial:
+            return lesson_content
         chapters_of_course = await alist_model(lesson_content.chapters.all)
+        if chapters_of_course.__len__() == 0:
+            return
         chapters_of_course: Chapter = chapters_of_course[0]
         course_of_chapter = await alist_model(chapters_of_course.courses.all)
+        if course_of_chapter.__len__() == 0:
+            return
         course_of_chapter: Course = course_of_chapter[0]
         # lesson_content = await self.lesson_model.objects.aget(pk=lesson_id)
         check_enrolled = await self.check_user_enrolled_course(user, course_of_chapter.pk)
@@ -167,7 +178,7 @@ class CourseService:
                 'expiration_date': user_enrollment.expiration_date
             }
             for user_enrollment in user_enrollments
-        ]
+        ] if user_enrollments.__len__() > 0 else []
     
     async def get_all_user_enrollments(self):
         user_enrollments = await alist_model(

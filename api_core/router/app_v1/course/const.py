@@ -1,4 +1,4 @@
-{
+content_course = {
     "overview": {
         "level": "Từ Cơ Bản đến Chuyên Nghiệp",
         "video_content": "12 giờ video HD",

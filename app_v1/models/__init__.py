@@ -96,7 +96,9 @@ class Review(models.Model):
 class Lesson(models.Model):
     name = models.CharField(max_length=255)
     content = models.TextField()
-    url_video = models.URLField(null=True)
+    url_doc = models.URLField(max_length=500, null=True, blank=True)
+    url_video = models.URLField(max_length=500,null=True, blank=True)
+    is_trial = models.BooleanField(default=False)
 
     reviews = models.ManyToManyField(Review, blank=True, related_name='lessons')
     exercises = models.ManyToManyField('Exercise', blank=True, related_name='lessons')

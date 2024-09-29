@@ -44,5 +44,5 @@ admin.site.site_header = 'API Core Admin'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', api.urls),
+    path('v1/api/', api.urls),
 ]

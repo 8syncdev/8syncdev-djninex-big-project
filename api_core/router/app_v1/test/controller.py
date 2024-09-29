@@ -1,9 +1,8 @@
 from api_core.common.restfull import *
 from .service import (
-    populate_database,
     delete_all,
-    populate_data
 )
+from gen_db import TestDB
 
 
 
@@ -21,28 +20,16 @@ class TestAppv1Controller:
     )
     def create_realdata(self):
         try:
-            populate_database(records_per_model=10)
+            TestDB.create_all_data()
             return {
-                'message': 'Populated database successfully'
+                'success': 'Done'
             }
+
         except Exception as e:
-            return {
-                'message': str(e)
+            return  {
+                'error': str(e)
             }
-        
-    @route.get(
-        path='/create-testdata-manual',
-    )
-    def create_testdata(self):
-        try:
-            populate_data()
-            return {
-                'message': 'Created test data successfully'
-            }
-        except Exception as e:
-            return {
-                'message': str(e)
-            }
+
     
     @route.get(
         path='/delete-all',
@@ -57,3 +44,5 @@ class TestAppv1Controller:
             return {
                 'message': str(e)
             }
+        
+

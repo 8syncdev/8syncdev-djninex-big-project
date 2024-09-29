@@ -17,7 +17,7 @@ from typing import Optional
 
 
 @api_controller(
-    prefix_or_class='/payment',
+    prefix_or_class='/payments',
     tags=['Payment'],
 )
 class PaymentController:
@@ -77,7 +77,7 @@ class PaymentController:
         
     @route.get(
         path='/user/{user_id}/pending',
-        summary='Get payment pending by user',
+        summary='Get pending payments by user',
     )
     @paginate_dev()
     async def get_payment_pending_by_user(self, request, user_id: int):
@@ -85,7 +85,7 @@ class PaymentController:
             data = await self.payment_service.get_payment_pending_by_user_id(user_id)
             return [PaymentOutputSchema.from_orm(payment) for payment in data]
         except Exception as e:
-            return res_invalid(f'Get payment pending by user failed: {e}')
+            return res_invalid(f'Get pending payments by user failed: {e}')
         
 
 
@@ -101,12 +101,12 @@ class PaymentController:
             return res_invalid(f'Delete all payments failed: {e}')
         
     @route.post(
-        path='/done',
-        summary='Done payment by user',
+        path='/complete',
+        summary='Complete payment',
         auth=AsyncJWTAuth(),
         permissions=[IsAuthenticated, IsAdminUser]
     )
-    async def done_payment(self, request: Request, user_id: Optional[int] = None, payment_id: Optional[int] = None):
+    async def complete_payment(self, request: Request, payment_id: Optional[int] = None, user_id: Optional[int] = None):
         try:
             params = {
                 'user_id': user_id,
@@ -116,7 +116,4 @@ class PaymentController:
             data = await self.payment_service.done_payment(**params)
             return data
         except Exception as e:
-            return res_invalid(f'Done payment failed: {e}')
-        
-        
-    
+            return res_invalid(f'Complete payment failed: {e}')

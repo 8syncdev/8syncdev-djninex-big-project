@@ -1,5 +1,6 @@
 from ninja import ModelSchema, Schema, Field
 from .model import Course, Chapter, Lesson, UserEnrollment
+from .const import content_course
 
 class CourseOutputSchema(ModelSchema):
     class Meta:
@@ -25,12 +26,16 @@ class LessonsOfChapterOutputSchema(ModelSchema):
         fields = (
             'id',
             'name',
+            'is_trial'
         )
 
 class LessonContentOutputSchema(ModelSchema):
     class Meta:
         model = Lesson
         fields = (
+            'name',
+            'url_video',
+            'url_doc',
             'content',
         )
 
@@ -47,8 +52,8 @@ class UserEnrollmentOutputSchema(ModelSchema):
 
 
 class CreateOrUpdateContentJsonCourseInputSchema(Schema):
-    course_id: int
-    content_json: dict
+    course_id: int = Field(gt=0)
+    content_json: dict = content_course
 
 class CreateOrUpdateContentJsonCourseOutputSchema(ModelSchema):
     class Meta:
@@ -61,4 +66,20 @@ class EnrollCourseInputSchema(Schema):
     course_id: int = Field(..., gt=0)
     status: str = 'enrolled'
     is_trial: bool = False
+
+
+class GetCourseByIdOutputSchema(ModelSchema):
+
+    class Meta:
+        model = Course
+        fields = (
+            'name',
+            'img_url',
+            'description',
+            'price',
+            'content_json',
+            'duration',
+            # 'created_at',
+            # 'updated_at',
+        )
 
