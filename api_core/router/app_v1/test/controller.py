@@ -11,38 +11,38 @@ from gen_db import TestDB
     tags=['Test Appv1'],
 )
 class TestAppv1Controller:
+    ...
+    # def __init__(self):
+    #     pass
 
-    def __init__(self):
-        pass
+    # @route.get(
+    #     path='/create-realdata-fakerlib',
+    # )
+    # def create_realdata(self):
+    #     try:
+    #         TestDB.create_all_data()
+    #         return {
+    #             'success': 'Done'
+    #         }
 
-    @route.get(
-        path='/create-realdata-fakerlib',
-    )
-    def create_realdata(self):
-        try:
-            TestDB.create_all_data()
-            return {
-                'success': 'Done'
-            }
-
-        except Exception as e:
-            return  {
-                'error': str(e)
-            }
+    #     except Exception as e:
+    #         return  {
+    #             'error': str(e)
+    #         }
 
     
-    @route.get(
-        path='/delete-all',
-    )
-    def delete_all(self):
-        try:
-            delete_all()
-            return {
-                'message': 'Deleted all data successfully'
-            }
-        except Exception as e:
-            return {
-                'message': str(e)
-            }
+    # @route.get(
+    #     path='/delete-all',
+    # )
+    # def delete_all(self):
+    #     try:
+    #         delete_all()
+    #         return {
+    #             'message': 'Deleted all data successfully'
+    #         }
+    #     except Exception as e:
+    #         return {
+    #             'message': str(e)
+    #         }
         
 

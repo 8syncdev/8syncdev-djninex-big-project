@@ -32,6 +32,6 @@ class TestDB:
     def create_one_data(path_cmd):
         subprocess.run(path_cmd, shell=True)
 
-# if __name__ == '__main__':
-#     TestDB.create_all_data()
+if __name__ == '__main__':
+    TestDB.create_all_data()
 
