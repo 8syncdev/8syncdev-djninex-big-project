@@ -82,8 +82,17 @@ WSGI_APPLICATION = 'api_core.deployment.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+# postgresql://postgres.bohxofxwmrvpxttxpblr:[YOUR-PASSWORD]@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
 
 LIST_DATABASE = [
+    {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres.bohxofxwmrvpxttxpblr',
+        'PASSWORD': '@S2001phamhai',
+        'HOST': 'aws-0-ap-southeast-1.pooler.supabase.com',
+        'PORT': '6543',
+    },
     {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'djex-next',
